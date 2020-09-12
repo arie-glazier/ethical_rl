@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 import numpy as np
 import tensorflow as tf
@@ -58,4 +59,4 @@ class DQN:
       if episode > self.buffer_wait_steps: # no need to train until the buffer has data
         self.__training_step()
 
-      print(f"episode: {episode} / total_rewards: {total_episode_rewards}")
+      print(f"episode: {episode} / total_rewards: {total_episode_rewards} / constraint_violations: {self.env.constraint_violation_count}")

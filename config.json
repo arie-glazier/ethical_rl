@@ -1,6 +1,5 @@
 {
-  "cartpole_test" : {
-    "environment_name" : "CartPole-v0", 
+  "DEFAULT_HYPERPARAMETERS" : {
     "max_replay_buffer_length" : 2000,
     "batch_size" : 32,
     "discount_factor" : 0.95,
@@ -10,5 +9,8 @@
     "number_of_episodes" : 600,
     "maximum_step_size" : 200,
     "buffer_wait_steps" : 50
+  },
+  "cartpole_test" : {
+    "environment_name" : "MiniGrid-arie-test-v0"
   }
 }
