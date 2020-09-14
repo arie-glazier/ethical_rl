@@ -17,6 +17,12 @@ class SequentialModel:
       keras.layers.Dense(32, activation="elu"),
       keras.layers.Dense(self.n_outputs)
     ])
+
+  def simple_model_single(self):
+    return keras.models.Sequential([
+      keras.layers.Dense(32, activation="elu", input_shape=self.input_shape),
+      keras.layers.Dense(self.n_outputs)
+    ])
   
   def dueling_dqn(self):
     input_states = keras.layers.Input(shape=self.input_shape)

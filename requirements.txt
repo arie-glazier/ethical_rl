@@ -2,3 +2,4 @@ tensorflow
 gym==0.17.2
 numpy==1.18.1
 gym-minigrid==1.0.1
+matplotlib==3.3.1

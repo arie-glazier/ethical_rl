@@ -32,4 +32,4 @@ if __name__ == "__main__":
 
   # can delete, just for testing
   plt.plot(range(0, len(results)), results)
-  plt.show()
+  plt.savefig("results.png")

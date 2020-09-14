@@ -29,10 +29,19 @@
     },
     "environment_name" : "MiniGrid-arie-test-v0"
   },
-  "cartpole_test" : {
-    "environment_name" : "CartPole-v0"
+  "cartpole" : {
+    "environment_name" : "CartPole-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.base"],
+      "classes" : ["BaseWrapper"]
+    },
+    "model_type" : {
+      "module" : "services.models.sequential",
+      "class" : "SequentialModel",
+      "method" : "simple_model"
+    }
   },
-  "arie_test" : {
+  "arie" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers"], 
