@@ -1,33 +1,35 @@
-import json, argparse, os, sys
+import json, argparse, os, sys, importlib
 
 import gym
 from services.environments.minigrid_test import *
+from services.util import load_class, load_object
+from services.arguments import Arguments
+from services.config import Config
 
-from services.environments.maker import EnvironmentMaker
-from services.models.sequential import SequentialModel
-from services.policies.epsilon_greedy import EpsilonGreedyPolicy
-from services.algorithms.dqn import DQN
+import matplotlib.pyplot as plt
 
-from gym_minigrid.wrappers import FullyObsWrapper, RGBImgObsWrapper, FlatObsWrapper
-
-PARSER = argparse.ArgumentParser()
+pwd = os.path.dirname(os.path.realpath(__file__))
+PARSER = Arguments(pwd=pwd).parser 
 PARSER.add_argument("--test_name")
-PARSER.add_argument("--environment_name")
 
 if __name__ == "__main__":
   args = PARSER.parse_args()
-  pwd = os.path.dirname(os.path.realpath(__file__))
+  config = Config(pwd=pwd, args=args).config
 
-  full_config = json.loads(open(os.path.join(pwd, "config.json")).read())
-  default_config = full_config["DEFAULT_HYPERPARAMETERS"]
-  test_config = full_config.get(args.test_name, {})
-  config = {**default_config, **test_config}
-  
-  env = FlatObsWrapper(gym.make(config.get("environment_name", args.environment_name))) # this flattens rgb representationo
+  env = gym.make(config.get("environment_name", args.environment_name))
+  environment_wrapper_config = config.get("environment_wrapper")
+  if environment_wrapper_config:
+    for idx, module in enumerate(environment_wrapper_config["modules"]): # for ability to wrap mulitple
+      environment_wrapper = load_class(module, environment_wrapper_config["classes"][idx])
+      env = environment_wrapper(env)
   env.reset()
 
-  model = SequentialModel(environment=env).simple_model()
-  policy = EpsilonGreedyPolicy(environment=env, model=model)
+  model = getattr(load_object(config["model_type"])(environment=env), config["model_type"]["method"])()
+  policy = load_object(config["policy_type"])(environment=env)
 
-  algorithm = DQN(environment=env, model=model, policy=policy, **config)
-  algorithm.train()
+  algorithm = load_object(config["algorithm_type"])(environment=env, model=model, policy=policy, **config)
+  results = algorithm.train()
+
+  # can delete, just for testing
+  plt.plot(range(0, len(results)), results)
+  plt.show()

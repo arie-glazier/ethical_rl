@@ -1,13 +1,28 @@
 from gym_minigrid.minigrid import Floor
 from gym_minigrid.envs.empty import EmptyEnv
 from gym_minigrid.register import register
-import statistics
+from gym import spaces
+
+import statistics, sys
+from enum import IntEnum
 
 class Arie5x5(EmptyEnv):
+    class Actions(IntEnum):
+          # Turn left, turn right, move forward
+          left = 0
+          right = 1
+          forward = 2
+
     def __init__(self, **kwargs):
         super().__init__(size=5, **kwargs)
-        self.constraint_violation_count = 0
-        self.episode_action_history = []
+        # Action enumeration for this environment
+        self.actions = Arie5x5.Actions
+
+        # Actions are discrete integer values
+        self.action_space = spaces.Discrete(len(self.actions))
+
+        self.metadata["constraint_violation_count"] = 0
+        self.metadata["episode_action_history"] = []
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
@@ -22,19 +37,19 @@ class Arie5x5(EmptyEnv):
 
       # note constraint violation if step on floor
       if tuple(self.agent_pos) in self.metadata["yellow_coords"]:
-        self.constraint_violation_count += 1
+        self.metadata["constraint_violation_count"] += 1
 
-      self.episode_action_history.append(action)
+      self.metadata["episode_action_history"].append(action)
 
       return obs, reward, done, info
 
     def reset(self):
-      self.constraint_violation_count = 0
-      self.episode_action_history = []
+      self.metadata["constraint_violation_count"] = 0
+      self.metadata["episode_action_history"] = []
       return super().reset()
 
-    def _reward(self):
-      return 1
+    # def _reward(self):
+    #   return 1
 
     # if we want to play interactively we need to figure this out
     # def get_keys_to_action(self):

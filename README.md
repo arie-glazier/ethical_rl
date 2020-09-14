@@ -11,3 +11,12 @@ This repo is based off of the MiniGrid project (https://github.com/maximecb/gym-
 + Added support for creating custom MiniGrid environments.  See ./services/environments/minigrid_test.py
 + Added a launch script for interactive play.  See ./interactive_play.py
 
+### 9/14/20
++ Made dueling dqn
++ Made double dqn
++ Implemented CNN
++ Implented Dueling Double CNN
++ Implemented wrappers
++ Plumbing: 
+  + see "DEFAULT_CONFIG" in```config.json``` for an example of available configurations.  These can be a separate test or passed in as arguments to ```main.py```.
+  + see ```deployment.py```

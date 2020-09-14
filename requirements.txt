@@ -1,4 +1,4 @@
-tensorflow==2.3.0
+tensorflow
 gym==0.17.2
 numpy==1.18.1
 gym-minigrid==1.0.1
