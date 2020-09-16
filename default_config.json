@@ -1,0 +1,20 @@
+  {
+    "max_replay_buffer_length" : 2000,
+    "batch_size" : 32,
+    "discount_factor" : 0.95,
+    "optimizer" : "Adam",
+    "learning_rate" : 1e-3,
+    "loss_function" : "mean_squared_error",
+    "number_of_episodes" : 600,
+    "maximum_step_size" : 200,
+    "buffer_wait_steps" : 50,
+    "model_module" : "services.models.sequential.cnn",
+    "policy_module": "services.policies.epsilon_greedy",
+    "algorithm_module" : "services.algorithms.dqn",
+    "environment_wrapper" : {
+      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
+      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
+      "note" : "This flattens RGB representations"
+    },
+    "environment_name" : "MiniGrid-arie-test-v0"
+  }

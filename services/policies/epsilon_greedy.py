@@ -1,8 +1,10 @@
 import numpy as np
+import sys
+from services.constants import *
 
-class EpsilonGreedyPolicy:
+class Policy:
   def __init__(self, **kwargs):
-    self.env = kwargs["environment"]
+    self.env = kwargs[ENVIRONMENT]
     self.n_outputs = self.env.action_space.n
 
   def get_action(self, model, state, epsilon):

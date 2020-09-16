@@ -4,7 +4,7 @@ from services.deploy import Deployer
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--host")
-PARSER.add_argument("--project_name")
+PARSER.add_argument("--project_name", default="ethical_rl")
 
 if __name__ == "__main__":
   args = PARSER.parse_args()

@@ -1,45 +1,11 @@
 {
-  "DEFAULT_CONFIG" : {
-    "max_replay_buffer_length" : 2000,
-    "batch_size" : 32,
-    "discount_factor" : 0.95,
-    "optimizer" : "Adam",
-    "learning_rate" : 1e-3,
-    "loss_function" : "mean_squared_error",
-    "number_of_episodes" : 600,
-    "maximum_step_size" : 200,
-    "buffer_wait_steps" : 50,
-    "model_type" : {
-      "module" : "services.models.sequential",
-      "class" : "SequentialModel",
-      "method" : "dueling_conv"
-    },
-    "policy_type" : {
-      "module" : "services.policies.epsilon_greedy",
-      "class" : "EpsilonGreedyPolicy"
-    },
-    "algorithm_type" : {
-      "module" : "services.algorithms.dqn",
-      "class" : "DQN"
-    },
-    "environment_wrapper" : {
-      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
-      "note" : "This flattens RGB representations"
-    },
-    "environment_name" : "MiniGrid-arie-test-v0"
-  },
   "cartpole" : {
     "environment_name" : "CartPole-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.base"],
       "classes" : ["BaseWrapper"]
     },
-    "model_type" : {
-      "module" : "services.models.sequential",
-      "class" : "SequentialModel",
-      "method" : "simple_model"
-    }
+    "model_module" : "services.models.sequential.simple_model"
   },
   "arie" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -47,7 +13,8 @@
       "modules" : ["gym_minigrid.wrappers"], 
       "classes" : ["FlatObsWrapper"],
       "note" : "This flattens representations"
-    }
+    },
+    "model_module" : "services.models.sequential.dueling_dqn"
   },
   "imgobs" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -55,6 +22,7 @@
       "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
       "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
       "note" : "This flattens RGB representations"
-    }
+    },
+    "model_module" : "services.models.sequential.cnn"
   }
 }

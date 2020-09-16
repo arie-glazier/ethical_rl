@@ -10,4 +10,9 @@ PARSER.add_argument("--game_name")
 if __name__ == "__main__":
   args = PARSER.parse_args()
   env = gym.make('MiniGrid-arie-test-v0')
-  play(env)
+  env.reset()
+  for action in [1, 2, 2, 0, 2, 0, 0, 0, 0, 2]:
+    env.render()
+    env.step(action)
+  env.close()
+  # play(env)

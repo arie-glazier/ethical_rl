@@ -5,6 +5,7 @@ from gym import spaces
 
 import statistics, sys
 from enum import IntEnum
+from services.constants import *
 
 class Arie5x5(EmptyEnv):
     class Actions(IntEnum):
@@ -21,31 +22,31 @@ class Arie5x5(EmptyEnv):
         # Actions are discrete integer values
         self.action_space = spaces.Discrete(len(self.actions))
 
-        self.metadata["constraint_violation_count"] = 0
-        self.metadata["episode_action_history"] = []
+        self.metadata[CONSTRAINT_VIOLATION_COUNT] = 0
+        self.metadata[EPISODE_ACTION_HISTORY] = []
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
 
       # Put a yellow square in the middle
       yellow_coords = (width//2, height//2)
-      self.metadata["yellow_coords"] = [yellow_coords]
-      self.put_obj(Floor("yellow"), *yellow_coords)
+      self.metadata[YELLOW_COORDINATES] = [yellow_coords]
+      self.put_obj(Floor(YELLOW), *yellow_coords)
 
     def step(self, action):
       obs, reward, done, info = super().step(action)
 
       # note constraint violation if step on floor
-      if tuple(self.agent_pos) in self.metadata["yellow_coords"]:
-        self.metadata["constraint_violation_count"] += 1
+      if tuple(self.agent_pos) in self.metadata[YELLOW_COORDINATES]:
+        self.metadata[CONSTRAINT_VIOLATION_COUNT] += 1
 
-      self.metadata["episode_action_history"].append(action)
+      self.metadata[EPISODE_ACTION_HISTORY].append(action)
 
       return obs, reward, done, info
 
     def reset(self):
-      self.metadata["constraint_violation_count"] = 0
-      self.metadata["episode_action_history"] = []
+      self.metadata[CONSTRAINT_VIOLATION_COUNT] = 0
+      self.metadata[EPISODE_ACTION_HISTORY] = []
       return super().reset()
 
     # def _reward(self):

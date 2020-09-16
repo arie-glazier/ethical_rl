@@ -3,25 +3,18 @@ from collections import deque
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
+from services.algorithms import AlgorithmBASE
+from services.constants import *
 
-class DQN:
+class Algorithm(AlgorithmBASE):
   def __init__(self, **kwargs):
-    self.env = kwargs["environment"]
-    self.n_outputs = self.env.action_space.n
-    self.model = kwargs["model"]
+    super().__init__(**kwargs)
     self.target_model = keras.models.clone_model(self.model) # fixed Q targets
     self.target_model.set_weights(self.model.get_weights())
-    self.policy = kwargs["policy"]
 
-    self.replay_buffer = deque(maxlen=kwargs["max_replay_buffer_length"]) # change to a circular buffer if replay length gets long
-    self.batch_size = kwargs["batch_size"]
-    self.discount_factor = kwargs["discount_factor"]
-    self.loss_function = getattr(keras.losses, kwargs["loss_function"])
-    self.optimizer = getattr(keras.optimizers, kwargs["optimizer"])(lr=kwargs["learning_rate"])
+    self.replay_buffer = deque(maxlen=kwargs[MAX_REPLAY_BUFFER_LENGTH]) # change to a circular buffer if replay length gets long
 
-    self.number_of_episodes = kwargs["number_of_episodes"]
-    self.maximum_step_size = kwargs["maximum_step_size"]
-    self.buffer_wait_steps = kwargs["buffer_wait_steps"]
+    self.buffer_wait_steps = kwargs[BUFFER_WAIT_STEPS]
 
   def __sample_experiences(self):
     indices = np.random.randint(len(self.replay_buffer), size=self.batch_size)
@@ -49,7 +42,8 @@ class DQN:
     # target_Q_values = (rewards + (1-dones) * self.discount_factor * max_next_Q_values).reshape(-1,1)
     mask = tf.one_hot(actions, self.n_outputs)
     with tf.GradientTape() as tape:
-      all_Q_values = self.model(states)
+      # all_Q_values = self.model(states.astype(np.float32)) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
+      all_Q_values = self.model(states) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
       loss = tf.reduce_mean(self.loss_function(target_Q_values, Q_values))
     gradients = tape.gradient(loss, self.model.trainable_variables)
@@ -57,7 +51,7 @@ class DQN:
 
   def train(self):
     rewards = []
-    for episode in range(int(self.number_of_episodes)):
+    for episode in range(self.number_of_episodes):
       state = self.env.reset()
       total_episode_rewards = 0
       for step in range(self.maximum_step_size):
@@ -68,10 +62,12 @@ class DQN:
           break
 
       if episode % 50 == 0: # this can be configurable.  copy weights to target every 50 episodes
+        print(f"completed episode {episode} with reward {total_episode_rewards}")
         self.target_model.set_weights(self.model.get_weights())
       if episode > self.buffer_wait_steps: # no need to train until the buffer has data
         self.__training_step()
 
-      print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / metadata: {self.env.metadata}")
-      rewards.append(total_episode_rewards)
+      # print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / metadata: {self.env.metadata}")
+      if episode >= self.number_of_episodes - 10:
+        rewards.append(total_episode_rewards)
     return rewards
