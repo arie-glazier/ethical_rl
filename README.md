@@ -20,3 +20,5 @@ This repo is based off of the MiniGrid project (https://github.com/maximecb/gym-
 + Plumbing: 
   + see ```default_config.json``` for an example of available configurations.  These can be a separate test in ```config.json``` or passed in as arguments to ```main.py```.
   + see ```deployment.py```
+  
+  Testing If Eli can push to master
