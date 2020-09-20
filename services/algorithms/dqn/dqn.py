@@ -37,9 +37,6 @@ class  Algorithm(DQNBASE):
                 if done:
                     break
 
-            # if episode % 50 == 0: # this can be configurable.  copy weights to target every 50 episodes
-            #   print(f"completed episode {episode} with reward {total_episode_rewards}")
-            #   self.target_model.set_weights(self.model.get_weights())
             if episode > self.buffer_wait_steps:  # no need to train until the buffer has data
                 self.__training_step()
 

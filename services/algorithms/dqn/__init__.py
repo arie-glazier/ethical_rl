@@ -9,8 +9,6 @@ from services.constants import *
 class DQNBASE(AlgorithmBASE):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
-    # self.target_model = keras.models.clone_model(self.model) # fixed Q targets
-    # self.target_model.set_weights(self.model.get_weights())
 
     self.replay_buffer = deque(maxlen=kwargs[MAX_REPLAY_BUFFER_LENGTH]) # change to a circular buffer if replay length gets long
 

@@ -22,11 +22,8 @@ class Algorithm(DQNBASE):
     next_best_Q_values = (self.target_model.predict(next_states) * next_mask).sum(axis=1)
     target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)
 
-    # max_next_Q_values = np.max(next_Q_values, axis = 1)
-    # target_Q_values = (rewards + (1-dones) * self.discount_factor * max_next_Q_values).reshape(-1,1)
     mask = tf.one_hot(actions, self.n_outputs)
     with tf.GradientTape() as tape:
-      # all_Q_values = self.model(states.astype(np.float32)) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
       all_Q_values = self.model(states) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
       loss = tf.reduce_mean(self.loss_function(target_Q_values, Q_values))
