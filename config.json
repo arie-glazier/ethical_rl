@@ -1,9 +1,9 @@
 {
-  "cartpole" : {
-    "environment_name" : "CartPole-v0",
+  "fullEnv" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.base"],
-      "classes" : ["BaseWrapper"]
+      "modules" : ["services.wrappers.fullEvnWrapper"],
+      "classes" : ["fullEnvWrapper"]
     },
     "model_module" : "services.models.sequential.simple_model"
   },
