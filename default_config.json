@@ -10,7 +10,7 @@
     "buffer_wait_steps" : 50,
     "model_module" : "services.models.sequential.cnn",
     "policy_module": "services.policies.epsilon_greedy",
-    "algorithm_module" : "services.algorithms.dqn",
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
       "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
