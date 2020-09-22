@@ -1,9 +1,17 @@
 {
-  "fullEnv" : {
+  "cartpole" : {
+    "environment_name" : "CartPole-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.base"],
+      "classes" : ["BaseWrapper"]
+    },
+    "model_module" : "services.models.sequential.simple_model"
+  },
+  "fullenv" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.fullEvnWrapper"],
-      "classes" : ["fullEnvWrapper"]
+      "modules" : ["services.wrappers.base"],
+      "classes" : ["BaseWrapper"]
     },
     "model_module" : "services.models.sequential.simple_model"
   },
