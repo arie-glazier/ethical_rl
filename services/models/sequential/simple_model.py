@@ -7,7 +7,7 @@ class Model(SequentialModelBASE):
     super().__init__(**kwargs)
 
     self.model = keras.models.Sequential([
-      keras.layers.Dense(32, activation="elu", input_shape=self.input_shape),
-      keras.layers.Dense(32, activation="elu"),
+      keras.layers.Dense(6, activation="elu", input_shape=self.input_shape),
+      keras.layers.Dense(6, activation="elu"),
       keras.layers.Dense(self.n_outputs)
     ])

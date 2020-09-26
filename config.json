@@ -49,7 +49,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.dueling_dqn",
@@ -62,7 +62,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.q_learning",
     "learning_rate" : 0.05,
@@ -73,7 +73,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.dueling_dqn",
@@ -86,7 +86,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.simple_model",
@@ -99,7 +99,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.simple_model",
@@ -112,7 +112,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.dqn",
     "model_module" : "services.models.sequential.simple_model",
@@ -125,7 +125,7 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
-      "classes" : ["SymbolicObservationsWrapper"]
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.dueling_dqn",

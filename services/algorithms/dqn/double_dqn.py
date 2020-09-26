@@ -12,8 +12,8 @@ class Algorithm(DQNBASE):
     self.target_model = keras.models.clone_model(self.model) # fixed Q targets
     self.target_model.set_weights(self.model.get_weights())
 
-  def __training_step(self):
-    states, actions, rewards, next_states, dones = self.sample_experiences()
+  def __training_step(self, episode_number):
+    states, actions, rewards, next_states, dones, weights, buffer_indexes = self.sample_experiences(episode_number)
     next_Q_values = self.model.predict(next_states)
 
     # this makes a double DQN
@@ -26,29 +26,42 @@ class Algorithm(DQNBASE):
     with tf.GradientTape() as tape:
       all_Q_values = self.model(states) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
-      loss = tf.reduce_mean(self.loss_function(target_Q_values, Q_values))
+      loss = tf.reduce_mean(weights * self.loss_function(target_Q_values, Q_values))
     gradients = tape.gradient(loss, self.model.trainable_variables)
     self.optimizer.apply_gradients(zip(gradients, self.model.trainable_variables))
+
+    # this is TD error (i think)
+    # TODO: really think about this so we're sure it is the correct calculation
+    td_error = np.abs(np.subtract(Q_values.numpy().flatten(), target_Q_values))
+    # TODO: make this configurable
+    distribution_shape = 0.5
+    weighted_td_error = np.power(td_error, distribution_shape)
+
+    # update priority replay buffer
+    self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)
 
   def train(self):
     rewards = []
     for episode in range(self.number_of_episodes):
       state = self.env.reset()
       total_episode_rewards = 0
+      epsilon = max(1 - episode / self.number_of_episodes, 0.01) # this can be configurable
       for step in range(self.maximum_step_size):
-        epsilon = max(1 - episode / 500, 0.01) # this can be configurable
         state, reward, done, info = self.play_one_step(state, epsilon)
         total_episode_rewards += reward
         if done:
           break
 
-      if episode % 50 == 0: # this can be configurable.  copy weights to target every 50 episodes
+      # copy weights to target every 50 episodes
+      if episode >= self.buffer_wait_steps and episode % 50 == 0: 
         print(f"completed episode {episode} with reward {total_episode_rewards}")
         self.target_model.set_weights(self.model.get_weights())
-      if episode > self.buffer_wait_steps: # no need to train until the buffer has data
-        self.__training_step()
+
+      # no need to train until the buffer has data
+      if episode >= self.buffer_wait_steps: 
+        self.__training_step(episode)
 
       # print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / metadata: {self.env.metadata}")
-      if episode >= self.number_of_episodes - 10:
-        rewards.append(total_episode_rewards)
+      # TODO: reward module that captures arbitrary data
+      rewards.append(total_episode_rewards)
     return rewards
