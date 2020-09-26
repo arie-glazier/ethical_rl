@@ -28,9 +28,17 @@ if __name__ == "__main__":
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)
   results = algorithm.train()
-  print(results)
 
   # can delete, just for testing
-  # import matplotlib.pyplot as plt
-  # plt.plot(range(0, len(results)), results)
-  # plt.savefig("results.png")
+  # print(results[-20:])
+  if results:
+    import matplotlib.pyplot as plt
+    plt.plot(range(0, len(results)), results)
+    plt.xlabel("episodes")
+    plt.ylabel("total reward")
+    algorithm_name = config[ALGORITHM_MODULE].split(".")[-1]
+    model_name = config[MODEL_MODULE].split(".")[-1]
+    replay_name = config[REPLAY_BUFFER_MODULE].split(".")[-1]
+    title = f"{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
+    plt.title(title)
+    plt.savefig(f"./results/{title}.png")

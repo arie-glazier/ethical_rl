@@ -7,22 +7,131 @@
     },
     "model_module" : "services.models.sequential.simple_model"
   },
-  "arie" : {
+  "dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers"], 
       "classes" : ["FlatObsWrapper"],
       "note" : "This flattens representations"
     },
+    "algorithm_module" : "services.algorithms.dqn.dqn",
+    "model_module" : "services.models.sequential.safety_gridworlds_perceptron"
+  },
+  "double_dqn" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["gym_minigrid.wrappers"], 
+      "classes" : ["FlatObsWrapper"],
+      "note" : "This flattens representations"
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.safety_gridworlds_perceptron"
+  },
+  "double_dueling_dqn" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["gym_minigrid.wrappers"], 
+      "classes" : ["FlatObsWrapper"],
+      "note" : "This flattens representations"
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.dueling_dqn"
   },
   "imgobs" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
-      "note" : "This flattens RGB representations"
+      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
     },
     "model_module" : "services.models.sequential.cnn"
+  },
+  "sym_wrapper_rainbow_params" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
+  },
+  "q_learning" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.q_learning",
+    "learning_rate" : 0.05,
+    "discount_factor" : 0.99,
+    "number_of_episodes" : 50000
+  },
+  "double_dueling_prioritized" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
+  },
+  "double_simple_prioritized" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.simple_model",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
+  },
+  "double_simple_simple" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.simple_model",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
+  },
+  "dqn_simple_simple" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.dqn",
+    "model_module" : "services.models.sequential.simple_model",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
+  },
+  "double_dueling_simple" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "learning_rate" : 0.000125,
+    "batch_size" : 32,
+    "discount_factor" : 0.99
   }
 }
