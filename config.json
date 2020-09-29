@@ -5,27 +5,25 @@
       "modules" : ["services.wrappers.base"],
       "classes" : ["BaseWrapper"]
     },
-    "model_module" : "services.models.sequential.simple_model"
+    "model_module" : "services.models.sequential.perceptron"
   },
   "dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers"], 
-      "classes" : ["FlatObsWrapper"],
-      "note" : "This flattens representations"
+      "classes" : ["FlatObsWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.dqn",
-    "model_module" : "services.models.sequential.safety_gridworlds_perceptron"
+    "model_module" : "services.models.sequential.perceptron"
   },
   "double_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers"], 
-      "classes" : ["FlatObsWrapper"],
-      "note" : "This flattens representations"
+      "classes" : ["FlatObsWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.safety_gridworlds_perceptron"
+    "model_module" : "services.models.sequential.perceptron"
   },
   "double_dueling_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -89,7 +87,7 @@
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.simple_model",
+    "model_module" : "services.models.sequential.perceptron",
     "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
@@ -102,7 +100,7 @@
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.simple_model",
+    "model_module" : "services.models.sequential.perceptron",
     "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
@@ -115,7 +113,7 @@
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.dqn",
-    "model_module" : "services.models.sequential.simple_model",
+    "model_module" : "services.models.sequential.perceptron",
     "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
     "learning_rate" : 0.000125,
     "batch_size" : 32,

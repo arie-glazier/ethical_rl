@@ -48,7 +48,7 @@ The main elements of a RL problem are an environment, a model, a policy, and an 
 ```python
 import json, gym
 
-from services.models.sequential.simple_model import Model
+from services.models.sequential.perceptron import Model
 from services.policies.epsilon_greedy import Policy
 from services.algorithms.dqn.double_dqn import Algorithm
 
@@ -77,7 +77,7 @@ Adjustable parameters (with examples) that can be specified in config.json or fr
     "number_of_episodes" : 600,
     "maximum_step_size" : 200,
     "buffer_wait_steps" : 50,
-    "model_module" : "services.models.sequential.simple_model",
+    "model_module" : "services.models.sequential.perceptron",
     "policy_module": "services.policies.epsilon_greedy",
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "epsilon_schedule_module" : "services.common.schedules.linear",

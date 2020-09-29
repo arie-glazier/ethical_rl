@@ -26,6 +26,7 @@ EPSILON_END = "epsilon_end"
 EPSILON_ANNEAL_PERCENT = "epsilon_anneal_percent"
 BUFFER_WAIT_STEPS = "buffer_wait_steps"
 TEST_NAME = "test_name"
+FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
 
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"

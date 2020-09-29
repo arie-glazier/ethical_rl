@@ -23,7 +23,7 @@ if __name__ == "__main__":
       env = environment_wrapper(env)
   env.reset()
 
-  model = load_model(config[MODEL_MODULE])(environment=env).model
+  model = load_model(config[MODEL_MODULE])(environment=env, **config).model
   policy = load_policy(config[POLICY_MODULE])(environment=env)
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)
