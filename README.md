@@ -42,7 +42,7 @@ For a description of available configurations, see the "Configurations" section 
 
 ### 2.) Roll Your Own
 
-The main elements of a RL problem are an environment, a model, a policy, and an algorithm.  These three items, along with their necessary configuration parameters (see "Configurations" below) are all that are needed to train an agent.
+The main elements of a RL problem are an environment, a model, a policy, and an algorithm.  These items, along with their necessary configuration parameters (see "Configurations" below) are all that are needed to train an agent.
 
 
 ```python
