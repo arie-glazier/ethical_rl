@@ -18,3 +18,6 @@ def load_object(attrs):
 
 def load_class(module, class_name):
   return getattr(importlib.import_module(module), class_name)
+
+def load_schedule(module, class_name="Schedule"):
+  return load_object({MODULE:module, CLASS:class_name})

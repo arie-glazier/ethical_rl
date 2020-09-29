@@ -47,7 +47,7 @@ class  Algorithm(DQNBASE):
         for episode in range(self.number_of_episodes):
             state = self.env.reset()
             total_episode_rewards = 0
-            epsilon = max(1 - episode / 500, 0.01)  # this can be configurable
+            epsilon = self.epsilon_schedule.value(episode) #max(1 - episode / self.number_of_episodes, 0.01) # this can be configurable
             for step in range(self.maximum_step_size):
                 state, reward, done, info = self.play_one_step(state, epsilon)
                 total_episode_rewards += reward

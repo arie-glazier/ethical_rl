@@ -6,7 +6,7 @@ from tensorflow import keras
 from services.algorithms import AlgorithmBASE
 from services.constants import *
 from services.util import load_replay_buffer
-from services.common.schedules import LinearSchedule
+from services.common.schedules.linear import Schedule as LinearSchedule
 
 class DQNBASE(AlgorithmBASE):
   def __init__(self, **kwargs):
