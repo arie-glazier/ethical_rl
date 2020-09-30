@@ -4,6 +4,9 @@ from services.constants import *
 def load_replay_buffer(module, class_name="ReplayBuffer"):
   return load_object({MODULE:module, CLASS:class_name})
 
+def load_reward(module, class_name="Reward"):
+  return load_object({MODULE:module, CLASS:class_name})
+
 def load_model(module, class_name="Model"):
   return load_object({MODULE:module, CLASS:class_name})
 
