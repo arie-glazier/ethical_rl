@@ -20,6 +20,8 @@ NUMBER_OF_EPISODES = "number_of_episodes"
 MAXIMUM_STEP_SIZE = "maximum_step_size"
 BUFFER_WAIT_STEPS = "buffer_wait_steps"
 TEST_NAME = "test_name"
+CLIP_NORM = "clip_norm"
+CLIP_VALUE = "clip_value"
 
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"
