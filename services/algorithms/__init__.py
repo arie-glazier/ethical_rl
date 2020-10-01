@@ -14,6 +14,9 @@ class AlgorithmBASE:
     self.loss_function = getattr(keras.losses, kwargs[LOSS_FUNCTION])
     self.learning_rate = float(kwargs[LEARNING_RATE])
     self.optimizer = getattr(keras.optimizers, kwargs[OPTIMIZER])(lr=self.learning_rate, epsilon=1.5e-4) #TODO: this epsilon only works for Adam
+    self.clip_norm = float(kwargs[CLIP_NORM])
+    # Does not perform clipping unless clip_norm is set to non-zero float
+    if self.clip_norm == 0: self.clip_norm = None
 
     self.number_of_episodes = int(kwargs[NUMBER_OF_EPISODES])
     self.maximum_step_size = int(kwargs[MAXIMUM_STEP_SIZE])

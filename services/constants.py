@@ -30,7 +30,7 @@ TEST_NAME = "test_name"
 FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
 TARGET_SYNC_FREQUENCY = "target_sync_frequency"
 CLIP_NORM = "clip_norm"
-CLIP_VALUE = "clip_value"
+
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"
 EPISODE_ACTION_HISTORY = "episode_action_history"

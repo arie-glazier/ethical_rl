@@ -28,7 +28,7 @@ class Algorithm(DQNBASE):
       total_episode_rewards = 0
       epsilon = self.epsilon_schedule.value(episode)
       for step in range(self.maximum_step_size):
-        state, reward, done, info = self.play_one_step(state, epsilon)
+        state, reward, done, info = self._play_one_step(state, epsilon)
         total_episode_rewards += reward
         if done:
           break
