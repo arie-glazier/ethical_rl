@@ -1,12 +1,4 @@
 {
-  "cartpole" : {
-    "environment_name" : "CartPole-v0",
-    "environment_wrapper" : {
-      "modules" : ["services.wrappers.base"],
-      "classes" : ["BaseWrapper"]
-    },
-    "model_module" : "services.models.sequential.perceptron"
-  },
   "dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
@@ -34,14 +26,6 @@
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.dueling_dqn"
-  },
-  "imgobs" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
-    "environment_wrapper" : {
-      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
-    },
-    "model_module" : "services.models.sequential.cnn"
   },
   "sym_wrapper_rainbow_params" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -139,6 +123,7 @@
       "classes" : ["FlatObsWrapper"]
     },
     "algorithm_module" : "services.algorithms.dqn.dqn",
-    "model_module" : "services.models.sequential.perceptron"
+    "model_module" : "services.models.sequential.perceptron",
+    "clip_norm": 5.0
   }
 }
