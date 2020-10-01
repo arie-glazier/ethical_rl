@@ -18,7 +18,10 @@ class DQNBASE(AlgorithmBASE):
     # This value relects an "amount of prioritization" (starts small -> high).
     # The idea is that training instability in the beginning implies that importance sampling
     # is more important towards the end.
-    self.beta_schedule = LinearSchedule(schedule_timesteps=self.number_of_episodes, final_p=1.0, initial_p=0.4) 
+    self.replay_buffer_prioritization_start = float(kwargs[REPLAY_BUFFER_PRIORITIZATION_START])
+    self.replay_buffer_prioritization_end = float(kwargs[REPLAY_BUFFER_PRIORITIZATION_END])
+    self.beta_schedule = LinearSchedule(schedule_timesteps=self.number_of_episodes, final_p=self.replay_buffer_prioritization_end, initial_p=self.replay_buffer_prioritization_start) 
+    self.replay_buffer_distribution_shape = float(kwargs[REPLAY_BUFFER_DISTRIBUTION_SHAPE])
 
     # This is how long we will wait before we start training the model - no reason to train until there's
     # enough data in the buffer.
@@ -50,9 +53,7 @@ class DQNBASE(AlgorithmBASE):
     # this is TD error (i think)
     # TODO: really think about this so we're sure it is the correct calculation
     td_error = np.abs(np.subtract(Q_values.numpy().flatten(), target_Q_values))
-    # TODO: make this configurable
-    distribution_shape = 0.5
-    weighted_td_error = np.power(td_error, distribution_shape)
+    weighted_td_error = np.power(td_error, self.replay_buffer_distribution_shape)
 
     # update priority replay buffer
     self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)

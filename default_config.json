@@ -26,5 +26,8 @@
     "environment_name" : "MiniGrid-arie-test-v0",
     "replay_buffer_module": "services.algorithms.dqn.replay_buffer.simple",
     "replay_buffer_prioritization" : 0.5,
+    "replay_buffer_distribution_shape" : 0.5,
+    "replay_buffer_prioritization_start" : 0.4,
+    "replay_buffer_prioritization_end" : 1.0,
     "target_sync_frequency" : 50
   }
