@@ -71,11 +71,4 @@ class DQNBASE(AlgorithmBASE):
   def _get_target_q_values(self, *args):
     raise NotImplementedError("Implemented By Child")
 
-  def _apply_clipping(self, grads):
-    # If clip_norm is passed apply clipping by norm
-    if self.clip_norm:
-      grads = [tf.clip_by_norm(g, self.clip_norm) for g in grads]
-    # If clip_value is passed apply clipping by value
-    elif self.clip_values:
-      grads = [tf.clip_by_norm(g, self.clip_value) for g in grads]
-    return grads
+
