@@ -8,6 +8,7 @@ from enum import IntEnum
 import numpy as np
 
 from services.constants import *
+from services.util import load_reward
 
 class Arie5x5(EmptyEnv):
     class Actions(IntEnum):
@@ -18,7 +19,7 @@ class Arie5x5(EmptyEnv):
 
     def __init__(self, **kwargs):
         self.goal_position = None
-        super().__init__(size=5, **kwargs)
+        super().__init__(size=5)
         # Action enumeration for this environment
         self.actions = Arie5x5.Actions
 
@@ -30,6 +31,8 @@ class Arie5x5(EmptyEnv):
 
         # In this empty environment, the goal is always in the same place
         self.goal_position = (self.width - 2, self.height - 2)
+
+        self.reward_module = load_reward(kwargs[REWARD_MODULE])(environment=self, **kwargs)
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
@@ -43,10 +46,7 @@ class Arie5x5(EmptyEnv):
       """
       Compute the reward to be given upon success
       """
-      # TODO: make configurable reward module
-      if done:
-        return 30
-      return -1
+      return self.reward_module.get(done)
 
     def step(self, action):
       self.step_count += 1

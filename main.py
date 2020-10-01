@@ -15,7 +15,7 @@ if __name__ == "__main__":
   args = PARSER.parse_args()
   config = Config(pwd=pwd, args=args).config
 
-  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name))
+  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name), **config)
   environment_wrapper_config = config.get(ENVIRONTMENT_WRAPPER)
   if environment_wrapper_config:
     for idx, module in enumerate(environment_wrapper_config[MODULES]): # for ability to wrap mulitple
@@ -23,7 +23,7 @@ if __name__ == "__main__":
       env = environment_wrapper(env)
   env.reset()
 
-  model = load_model(config[MODEL_MODULE])(environment=env).model
+  model = load_model(config[MODEL_MODULE])(environment=env, **config).model
   policy = load_policy(config[POLICY_MODULE])(environment=env)
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)

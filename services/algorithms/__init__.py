@@ -1,5 +1,6 @@
 from tensorflow import keras
 from services.constants import *
+from services.util import load_schedule
 
 class AlgorithmBASE:
   def __init__(self, **kwargs):
@@ -16,3 +17,9 @@ class AlgorithmBASE:
 
     self.number_of_episodes = int(kwargs[NUMBER_OF_EPISODES])
     self.maximum_step_size = int(kwargs[MAXIMUM_STEP_SIZE])
+
+    self.epsilon_start = kwargs[EPSILON_START]
+    self.epsilon_end = kwargs[EPSILON_END]
+    self.epsilon_anneal_percent = kwargs[EPSILON_ANNEAL_PERCENT]
+    self.epsilon_schedule_timesteps = int(self.number_of_episodes * self.epsilon_anneal_percent)
+    self.epsilon_schedule = load_schedule(kwargs[EPSILON_SCHEDULE_MODULE])(self.epsilon_schedule_timesteps, self.epsilon_end, self.epsilon_start)
