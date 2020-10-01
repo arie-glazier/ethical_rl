@@ -11,6 +11,7 @@ class Algorithm(DQNBASE):
     super().__init__(**kwargs)
     self.target_model = keras.models.clone_model(self.model) # fixed Q targets
     self.target_model.set_weights(self.model.get_weights())
+    self.target_sync_frequency = int(kwargs[TARGET_SYNC_FREQUENCY])
 
   def __training_step(self, episode_number):
     states, actions, rewards, next_states, dones, weights, buffer_indexes = self.sample_experiences(episode_number)
@@ -52,8 +53,8 @@ class Algorithm(DQNBASE):
         if done:
           break
 
-      # copy weights to target every 50 episodes
-      if episode >= self.buffer_wait_steps and episode % 50 == 0: 
+      # copy weights to target every X episodes
+      if episode >= self.buffer_wait_steps and episode % self.target_sync_frequency == 0: 
         print(f"completed episode {episode} with reward {total_episode_rewards}")
         self.target_model.set_weights(self.model.get_weights())
 
