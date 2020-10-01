@@ -13,33 +13,13 @@ class Algorithm(DQNBASE):
     self.target_model.set_weights(self.model.get_weights())
     self.target_sync_frequency = int(kwargs[TARGET_SYNC_FREQUENCY])
 
-  def __training_step(self, episode_number):
-    states, actions, rewards, next_states, dones, weights, buffer_indexes = self.sample_experiences(episode_number)
-    next_Q_values = self.model.predict(next_states)
-
-    # this makes a double DQN
+  def _get_target_q_values(self, next_Q_values, rewards, dones, next_states, *args):
     best_next_actions = np.argmax(next_Q_values, axis=1)
     next_mask = tf.one_hot(best_next_actions, self.n_outputs).numpy()
     next_best_Q_values = (self.target_model.predict(next_states) * next_mask).sum(axis=1)
     target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)
+    return target_Q_values
 
-    mask = tf.one_hot(actions, self.n_outputs)
-    with tf.GradientTape() as tape:
-      all_Q_values = self.model(states) # this is a tf 2.0.0 issue, when we upgrade the cast can be removed
-      Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
-      loss = tf.reduce_mean(weights * self.loss_function(target_Q_values, Q_values))
-    gradients = tape.gradient(loss, self.model.trainable_variables)
-    self.optimizer.apply_gradients(zip(gradients, self.model.trainable_variables))
-
-    # this is TD error (i think)
-    # TODO: really think about this so we're sure it is the correct calculation
-    td_error = np.abs(np.subtract(Q_values.numpy().flatten(), target_Q_values))
-    # TODO: make this configurable
-    distribution_shape = 0.5
-    weighted_td_error = np.power(td_error, distribution_shape)
-
-    # update priority replay buffer
-    self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)
 
   def train(self):
     rewards = []
@@ -60,7 +40,7 @@ class Algorithm(DQNBASE):
 
       # no need to train until the buffer has data
       if episode >= self.buffer_wait_steps: 
-        self.__training_step(episode)
+        self._training_step(episode)
 
       # print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / metadata: {self.env.metadata}")
       # TODO: reward module that captures arbitrary data
