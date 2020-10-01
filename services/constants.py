@@ -10,7 +10,10 @@ CLASSES = "classes"
 MODEL_MODULE = "model_module"
 POLICY_MODULE = "policy_module"
 ALGORITHM_MODULE = "algorithm_module"
+REPLAY_BUFFER_MODULE = "replay_buffer_module"
+REWARD_MODULE = "reward_module"
 MAX_REPLAY_BUFFER_LENGTH = "max_replay_buffer_length"
+REPLAY_BUFFER_PRIORITIZATION = "replay_buffer_prioritization"
 BATCH_SIZE = "batch_size"
 DISCOUNT_FACTOR = "discount_factor"
 OPTIMIZER = "optimizer"
@@ -18,16 +21,27 @@ LEARNING_RATE = "learning_rate"
 LOSS_FUNCTION = "loss_function"
 NUMBER_OF_EPISODES = "number_of_episodes"
 MAXIMUM_STEP_SIZE = "maximum_step_size"
+EPSILON_SCHEDULE_MODULE = "epsilon_schedule_module"
+EPSILON_START = "epsilon_start"
+EPSILON_END = "epsilon_end"
+EPSILON_ANNEAL_PERCENT = "epsilon_anneal_percent"
 BUFFER_WAIT_STEPS = "buffer_wait_steps"
 TEST_NAME = "test_name"
+<<<<<<< HEAD
 CLIP_NORM = "clip_norm"
 CLIP_VALUE = "clip_value"
+=======
+FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
+TARGET_SYNC_FREQUENCY = "target_sync_frequency"
+>>>>>>> master
 
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"
 EPISODE_ACTION_HISTORY = "episode_action_history"
 YELLOW_COORDINATES = "yellow_coordinates"
 YELLOW = "yellow"
+TERMINATION_REWARD = "termination_reward"
+STEP_REWARD = "step_reward"
 
 # utils
 PWD = "pwd"

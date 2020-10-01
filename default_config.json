@@ -8,13 +8,23 @@
     "number_of_episodes" : 600,
     "maximum_step_size" : 200,
     "buffer_wait_steps" : 50,
-    "model_module" : "services.models.sequential.cnn",
+    "model_module" : "services.models.sequential.perceptron",
+    "fully_connected_model_size" : [32, 32],
     "policy_module": "services.policies.epsilon_greedy",
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "reward_module" : "services.environments.rewards.negative_step",
+    "termination_reward" : 30,
+    "step_reward" : -1,
+    "epsilon_schedule_module" : "services.common.schedules.linear",
+    "epsilon_start" : 1.0,
+    "epsilon_end" : 0.01,
+    "epsilon_anneal_percent" : 0.10,
     "environment_wrapper" : {
       "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"],
-      "note" : "This flattens RGB representations"
+      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
     },
-    "environment_name" : "MiniGrid-arie-test-v0"
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.simple",
+    "replay_buffer_prioritization" : 0.5,
+    "target_sync_frequency" : 50
   }

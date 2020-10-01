@@ -15,7 +15,7 @@ if __name__ == "__main__":
   args = PARSER.parse_args()
   config = Config(pwd=pwd, args=args).config
 
-  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name))
+  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name), **config)
   environment_wrapper_config = config.get(ENVIRONTMENT_WRAPPER)
   if environment_wrapper_config:
     for idx, module in enumerate(environment_wrapper_config[MODULES]): # for ability to wrap mulitple
@@ -23,14 +23,22 @@ if __name__ == "__main__":
       env = environment_wrapper(env)
   env.reset()
 
-  model = load_model(config[MODEL_MODULE])(environment=env).model
+  model = load_model(config[MODEL_MODULE])(environment=env, **config).model
   policy = load_policy(config[POLICY_MODULE])(environment=env)
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)
   results = algorithm.train()
-  print(results)
 
   # can delete, just for testing
-  # import matplotlib.pyplot as plt
-  # plt.plot(range(0, len(results)), results)
-  # plt.savefig("results.png")
+  # print(results[-20:])
+  if results:
+    import matplotlib.pyplot as plt
+    plt.plot(range(0, len(results)), results)
+    plt.xlabel("episodes")
+    plt.ylabel("total reward")
+    algorithm_name = config[ALGORITHM_MODULE].split(".")[-1]
+    model_name = config[MODEL_MODULE].split(".")[-1]
+    replay_name = config[REPLAY_BUFFER_MODULE].split(".")[-1]
+    title = f"{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
+    plt.title(title)
+    plt.savefig(f"./results/{title}.png")
