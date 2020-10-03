@@ -31,6 +31,7 @@ class DQNBASE(AlgorithmBASE):
   def play_one_step(self, state, epsilon):
     action = self.policy.get_action(self.model, state, epsilon)
     next_state, reward, done, info = self.env.step(action)
+    #TODO: Check for goal state itself
     really_done = True if self.env.agent_pos[0] == 3 and self.env.agent_pos[1]==3 else False
     self.replay_buffer.add(state, action, reward, next_state, really_done)
     return next_state, reward, done, info
@@ -43,18 +44,6 @@ class DQNBASE(AlgorithmBASE):
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
       # TODO: check that multiplication of weights here is correct.
       loss = tf.reduce_mean(weights * self.loss_function(target_Q_values.reshape(-1,1), Q_values))
-
-    # print(Q_values.numpy().tolist())
-    # print(target_Q_values.tolist())
-    # print(target_Q_values.reshape(-1,1).tolist())
-    # print(loss)
-    # sys.exit()
-
-    # print(weights)
-    # print(target_Q_values)
-    # print(Q_values)
-    # print(loss)
-    # sys.exit()
     grads = tape.gradient(loss, self.model.trainable_variables)
     self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
     return Q_values, loss
@@ -78,6 +67,7 @@ class DQNBASE(AlgorithmBASE):
     target_Q_values = self._get_target_q_values(next_Q_values, rewards, dones, next_states)
     Q_values, loss = self._update_model(states, actions, weights, target_Q_values)
     self._update_replay_buffer(Q_values, target_Q_values, buffer_indexes)
+    # For debugging, can delete later
     if episode_number % 25 == 0:
       goal_state = np.array([[0,1,0,0,0,0,1,0,0,1,4]])
       print(f"goal: {self.model.predict(goal_state)}")

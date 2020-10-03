@@ -21,7 +21,6 @@ class Algorithm(DQNBASE):
     target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)#.reshape(-1,1)
     return target_Q_values
 
-
   def train(self):
     rewards = []
     losses = []
