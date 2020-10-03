@@ -32,7 +32,8 @@ class Arie5x5(EmptyEnv):
         # In this empty environment, the goal is always in the same place
         self.goal_position = (self.width - 2, self.height - 2)
 
-        self.reward_module = load_reward(kwargs[REWARD_MODULE])(environment=self, **kwargs)
+        self.reward_module_name = kwargs.get(REWARD_MODULE, "services.environments.rewards.negative_step")
+        self.reward_module = load_reward(self.reward_module_name)(environment=self, **kwargs)
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
@@ -66,12 +67,10 @@ class Arie5x5(EmptyEnv):
           self.agent_dir -= 1
           if self.agent_dir < 0:
               self.agent_dir += 4
-          reward = self._reward(done)
 
       # Rotate right
       elif action == self.actions.right:
           self.agent_dir = (self.agent_dir + 1) % 4
-          reward = self._reward(done)
 
       # Move forward
       elif action == self.actions.forward:
@@ -79,13 +78,13 @@ class Arie5x5(EmptyEnv):
               self.agent_pos = fwd_pos
           if fwd_cell != None and fwd_cell.type == 'goal':
               done = True
-              reward = self._reward(done)
           if fwd_cell != None and fwd_cell.type == 'lava':
               done = True
 
       if self.step_count >= self.max_steps:
           done = True
 
+      reward = self._reward(done)
       obs = self.gen_obs()
 
       # note constraint violation
@@ -111,6 +110,7 @@ class Arie5x5(EmptyEnv):
       obs["goal_position"] = self.goal_position
       obs["yellow_position"] = self.metadata[YELLOW_COORDINATES]
       obs["constraint_violation_count"] = self.metadata[CONSTRAINT_VIOLATION_COUNT]
+      obs["step_count"] = self.step_count
       return obs
 
     # if we want to play interactively we need to figure this out

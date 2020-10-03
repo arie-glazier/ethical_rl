@@ -27,7 +27,7 @@ if __name__ == "__main__":
   policy = load_policy(config[POLICY_MODULE])(environment=env)
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)
-  results = algorithm.train()
+  results, losses = algorithm.train()
 
   # can delete, just for testing
   # print(results[-20:])
@@ -42,3 +42,9 @@ if __name__ == "__main__":
     title = f"{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
     plt.title(title)
     plt.savefig(f"./results/{title}.png")
+
+    plt.clf()
+    plt.plot(range(0, len(losses)), losses)
+    plt.xlabel("episodes")
+    plt.ylabel("total loss")
+    plt.show()

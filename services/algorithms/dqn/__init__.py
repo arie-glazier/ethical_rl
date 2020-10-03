@@ -31,7 +31,8 @@ class DQNBASE(AlgorithmBASE):
   def play_one_step(self, state, epsilon):
     action = self.policy.get_action(self.model, state, epsilon)
     next_state, reward, done, info = self.env.step(action)
-    self.replay_buffer.add(state, action, reward, next_state, done)
+    really_done = True if self.env.agent_pos[0] == 3 and self.env.agent_pos[1]==3 else False
+    self.replay_buffer.add(state, action, reward, next_state, really_done)
     return next_state, reward, done, info
 
   def _update_model(self, states, actions, weights, target_Q_values):
@@ -41,18 +42,31 @@ class DQNBASE(AlgorithmBASE):
       all_Q_values = self.model(states)
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
       # TODO: check that multiplication of weights here is correct.
-      loss = tf.reduce_mean(weights * self.loss_function(target_Q_values, Q_values))
+      loss = tf.reduce_mean(weights * self.loss_function(target_Q_values.reshape(-1,1), Q_values))
+
+    # print(Q_values.numpy().tolist())
+    # print(target_Q_values.tolist())
+    # print(target_Q_values.reshape(-1,1).tolist())
+    # print(loss)
+    # sys.exit()
+
+    # print(weights)
+    # print(target_Q_values)
+    # print(Q_values)
+    # print(loss)
+    # sys.exit()
     grads = tape.gradient(loss, self.model.trainable_variables)
     self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
-    return Q_values
+    return Q_values, loss
 
   def _update_replay_buffer(self, Q_values, target_Q_values, buffer_indexes):
     # this is TD error (i think)
     # TODO: really think about this so we're sure it is the correct calculation
-    td_error = np.abs(np.subtract(Q_values.numpy().flatten(), target_Q_values))
+    td_error = np.abs(np.subtract(Q_values.numpy().flatten(), target_Q_values.flatten()))
     # TODO: make this configurable
     distribution_shape = 0.5
-    weighted_td_error = np.power(td_error, distribution_shape)
+    weighted_td_error = np.power(td_error, distribution_shape).reshape(-1)
+    # print(f"weighted error: {weighted_td_error}")
 
     # update priority replay buffer
     self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)
@@ -62,8 +76,31 @@ class DQNBASE(AlgorithmBASE):
     next_Q_values = self.model.predict(next_states)
 
     target_Q_values = self._get_target_q_values(next_Q_values, rewards, dones, next_states)
-    Q_values = self._update_model(states, actions, weights, target_Q_values)
+    Q_values, loss = self._update_model(states, actions, weights, target_Q_values)
     self._update_replay_buffer(Q_values, target_Q_values, buffer_indexes)
+    if episode_number % 25 == 0:
+      goal_state = np.array([[0,1,0,0,0,0,1,0,0,1,4]])
+      print(f"goal: {self.model.predict(goal_state)}")
+      for i in range(4,5):
+        before_goal_state = np.array([[1,0,0,0,1,0,0,1,0,0,0]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,1,0,0,1,0,0,1,0,0,0]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,0,1,0,1,0,0,1,0,0,0]])
+        print(f"left: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,0,0,1,1,0,0,1,0,0,0]])
+        print(f"right: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[1,0,0,0,0,1,0,1,0,0,2]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[1,0,0,0,0,0,1,1,0,0,3]])
+        print(f"right: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,1,0,0,0,0,1,1,0,0,4]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,5]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+        before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,99]])
+        print(f"straight: {self.model.predict(before_goal_state)}")
+    return loss
 
   def _get_target_q_values(self, *args):
     raise NotImplementedError("Implemented By Child")
