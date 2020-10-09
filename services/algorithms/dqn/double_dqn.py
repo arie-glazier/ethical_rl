@@ -17,8 +17,7 @@ class Algorithm(DQNBASE):
     best_next_actions = np.argmax(next_Q_values, axis=1)
     next_mask = tf.one_hot(best_next_actions, self.n_outputs).numpy()
     next_best_Q_values = (self.target_model.predict(next_states) * next_mask).sum(axis=1)
-    # TODO: WHAT IS UP W RESHAPE????
-    target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)#.reshape(-1,1)
+    target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)
     return target_Q_values
 
   def train(self):
@@ -29,9 +28,15 @@ class Algorithm(DQNBASE):
       total_episode_rewards = 0
       epsilon = self.epsilon_schedule.value(episode - self.buffer_wait_steps) if episode >= self.buffer_wait_steps else 1.0
       for step in range(self.maximum_step_size):
+        if self.render_training_steps and episode % self.render_training_steps == 0:
+          self.env.render()
         state, reward, done, info = self.play_one_step(state, epsilon)
+        if done and self.render_training_steps and episode % self.render_training_steps == 0:
+          self.env.step(2)
+          self.env.render()
         total_episode_rewards += reward
-        if done:
+        # quit on actually reaching goal or passing the step limit
+        if done or self.env.step_count >= self.env.max_steps:
           break
 
       # no need to train until the buffer has data

@@ -31,9 +31,7 @@ class DQNBASE(AlgorithmBASE):
   def play_one_step(self, state, epsilon):
     action = self.policy.get_action(self.model, state, epsilon)
     next_state, reward, done, info = self.env.step(action)
-    #TODO: Check for goal state itself
-    really_done = True if self.env.agent_pos[0] == 3 and self.env.agent_pos[1]==3 else False
-    self.replay_buffer.add(state, action, reward, next_state, really_done)
+    self.replay_buffer.add(state, action, reward, next_state, done)
     return next_state, reward, done, info
 
   def _update_model(self, states, actions, weights, target_Q_values):
@@ -58,7 +56,11 @@ class DQNBASE(AlgorithmBASE):
     # print(f"weighted error: {weighted_td_error}")
 
     # update priority replay buffer
-    self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)
+    try:
+      self.replay_buffer.update_priorities(buffer_indexes, weighted_td_error)
+    except Exception as ex:
+      print(f"Buffer Exception: {ex}")
+      print(weighted_td_error)
 
   def _training_step(self, episode_number):
     states, actions, rewards, next_states, dones, weights, buffer_indexes = self.sample_experiences(episode_number)
@@ -67,30 +69,34 @@ class DQNBASE(AlgorithmBASE):
     target_Q_values = self._get_target_q_values(next_Q_values, rewards, dones, next_states)
     Q_values, loss = self._update_model(states, actions, weights, target_Q_values)
     self._update_replay_buffer(Q_values, target_Q_values, buffer_indexes)
+
     # For debugging, can delete later
-    if episode_number % 25 == 0:
-      goal_state = np.array([[0,1,0,0,0,0,1,0,0,1,4]])
-      print(f"goal: {self.model.predict(goal_state)}")
-      for i in range(4,5):
-        before_goal_state = np.array([[1,0,0,0,1,0,0,1,0,0,0]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,1,0,0,1,0,0,1,0,0,0]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,0,1,0,1,0,0,1,0,0,0]])
-        print(f"left: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,0,0,1,1,0,0,1,0,0,0]])
-        print(f"right: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[1,0,0,0,0,1,0,1,0,0,2]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[1,0,0,0,0,0,1,1,0,0,3]])
-        print(f"right: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,1,0,0,0,0,1,1,0,0,4]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,5]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
-        before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,99]])
-        print(f"straight: {self.model.predict(before_goal_state)}")
+    if self.render_training_steps and episode_number % self.render_training_steps == 0: self.__print_debug_info()
+
     return loss
 
   def _get_target_q_values(self, *args):
     raise NotImplementedError("Implemented By Child")
+
+  def __print_debug_info(self):
+    goal_state = np.array([[0,1,0,0,0,0,1,0,0,1,4]])
+    print(f"goal: {self.model.predict(goal_state)}")
+    for i in range(4,5):
+      before_goal_state = np.array([[1,0,0,0,1,0,0,1,0,0,0]])
+      print(f"straight: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,1,0,0,1,0,0,1,0,0,0]])
+      print(f"straight: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,0,1,0,1,0,0,1,0,0,0]])
+      print(f"left: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,0,0,1,1,0,0,1,0,0,0]])
+      print(f"right: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[1,0,0,0,0,1,0,1,0,0,2]])
+      print(f"straight: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[1,0,0,0,0,0,1,1,0,0,3]])
+      print(f"right: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,1,0,0,0,0,1,1,0,0,4]])
+      print(f"straight: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,5]])
+      print(f"straight: {self.model.predict(before_goal_state)}")
+      before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,99]])
+      print(f"straight: {self.model.predict(before_goal_state)}")

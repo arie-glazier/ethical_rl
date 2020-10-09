@@ -29,6 +29,7 @@ BUFFER_WAIT_STEPS = "buffer_wait_steps"
 TEST_NAME = "test_name"
 FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
 TARGET_SYNC_FREQUENCY = "target_sync_frequency"
+RENDER_TRAINING_STEPS = "render_training_steps"
 
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"
@@ -37,6 +38,7 @@ YELLOW_COORDINATES = "yellow_coordinates"
 YELLOW = "yellow"
 TERMINATION_REWARD = "termination_reward"
 STEP_REWARD = "step_reward"
+MAX_STEPS_PER_EPISODE = "max_steps_per_episode"
 
 # utils
 PWD = "pwd"

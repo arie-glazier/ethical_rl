@@ -23,3 +23,5 @@ class AlgorithmBASE:
     self.epsilon_anneal_percent = kwargs[EPSILON_ANNEAL_PERCENT]
     self.epsilon_schedule_timesteps = int(self.number_of_episodes * self.epsilon_anneal_percent)
     self.epsilon_schedule = load_schedule(kwargs[EPSILON_SCHEDULE_MODULE])(self.epsilon_schedule_timesteps, self.epsilon_end, self.epsilon_start)
+
+    self.render_training_steps = int(kwargs[RENDER_TRAINING_STEPS]) if kwargs.get(RENDER_TRAINING_STEPS) else None

@@ -33,6 +33,7 @@ if __name__ == "__main__":
   # print(results[-20:])
   if results:
     import matplotlib.pyplot as plt
+    plt.clf() # render messes this up
     plt.plot(range(0, len(results)), results)
     plt.xlabel("episodes")
     plt.ylabel("total reward")
@@ -41,6 +42,7 @@ if __name__ == "__main__":
     replay_name = config[REPLAY_BUFFER_MODULE].split(".")[-1]
     title = f"{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
     plt.title(title)
+    print(f"title is {title}")
     plt.savefig(f"./results/{title}.png")
 
     plt.clf()
