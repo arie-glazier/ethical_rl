@@ -20,7 +20,7 @@ class Algorithm(DQNBASE):
     target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)
     return target_Q_values
 
-  def train(self):
+  def train(self,timed = False):
     rewards = []
     losses = []
     for episode in range(self.number_of_episodes):
@@ -38,7 +38,7 @@ class Algorithm(DQNBASE):
         # quit on actually reaching goal or passing the step limit
         if done or self.env.step_count >= self.env.max_steps:
           break
-
+      
       # no need to train until the buffer has data
       if episode >= self.buffer_wait_steps: 
         loss = self._training_step(episode)
@@ -50,7 +50,7 @@ class Algorithm(DQNBASE):
       if episode >= self.buffer_wait_steps and episode % self.target_sync_frequency == 0: 
         print(f"completed episode {episode} with reward {total_episode_rewards}")
         self.target_model.set_weights(self.model.get_weights())
-
+      if timed and episode > 5: break
       print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
       # TODO: reward module that captures arbitrary data
       rewards.append(total_episode_rewards)
