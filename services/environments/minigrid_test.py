@@ -35,6 +35,8 @@ class Arie5x5(EmptyEnv):
         self.reward_module_name = kwargs.get(REWARD_MODULE, "services.environments.rewards.negative_step")
         self.reward_module = load_reward(self.reward_module_name)(environment=self, **kwargs)
 
+        self.max_steps = int(kwargs[MAX_STEPS_PER_EPISODE])
+
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
 
@@ -81,10 +83,8 @@ class Arie5x5(EmptyEnv):
           if fwd_cell != None and fwd_cell.type == 'lava':
               done = True
 
-      if self.step_count >= self.max_steps:
-          done = True
-
       reward = self._reward(done)
+
       obs = self.gen_obs()
 
       # note constraint violation

@@ -142,7 +142,7 @@
     "model_module" : "services.models.sequential.perceptron",
     "clip_norm": 5.0
   },
-  "double_dueling_prioritized_clip" : {
+  "double_dueling_prioritized_clip_good" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
       "modules" : ["services.wrappers.symbolic_observations"], 
@@ -161,5 +161,25 @@
     "discount_factor" : 1.0,
     "target_sync_frequency" : 100,
     "number_of_episodes": 500
+  },
+  "double_dueling_prioritized_clip" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.001,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.60,
+    "termination_reward" : 5,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 400,
+    "max_steps_per_episode" : 20
   }
 }
