@@ -43,9 +43,12 @@ class DQNBASE(AlgorithmBASE):
       # TODO: check that multiplication of weights here is correct.
       loss = tf.reduce_mean(weights * self.loss_function(target_Q_values.reshape(-1,1), Q_values))
     grads = tape.gradient(loss, self.model.trainable_variables)
+
     # Apply clipping by global norm
+    # TODO: see if norm clipping can just be incorporated into the Adam optimizer
     if self.clip_norm:
       grads, _ = tf.clip_by_global_norm(grads, self.clip_norm)
+
     self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
     return Q_values, loss
 
