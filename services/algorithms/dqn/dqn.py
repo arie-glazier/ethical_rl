@@ -18,7 +18,7 @@ class  Algorithm(DQNBASE):
       return target_Q_values
 
 
-    def train(self):
+    def train(self,timed=False):
         rewards = []
         for episode in range(self.number_of_episodes):
             state = self.env.reset()
@@ -32,7 +32,7 @@ class  Algorithm(DQNBASE):
 
             if episode >= self.buffer_wait_steps:  # no need to train until the buffer has data
               self._training_step(episode)
-
+            if timed and episode > 5: break
             # print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / metadata: {self.env.metadata}")
             rewards.append(total_episode_rewards)
         return rewards
