@@ -4,8 +4,8 @@ from services.constants import *
 class Reward(RewardBASE):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
-    self.termination_reward = kwargs.get(TERMINATION_REWARD)
-    self.step_reward = kwargs.get(STEP_REWARD)
+    self.termination_reward = kwargs.get(TERMINATION_REWARD, 30)
+    self.step_reward = kwargs.get(STEP_REWARD, -1)
 
   def get(self, done, *args):
     if done:

@@ -27,12 +27,13 @@ if __name__ == "__main__":
   policy = load_policy(config[POLICY_MODULE])(environment=env)
 
   algorithm = load_algorithm(config[ALGORITHM_MODULE])(environment=env, model=model, policy=policy, **config)
-  results = algorithm.train()
+  results, losses = algorithm.train()
 
   # can delete, just for testing
   # print(results[-20:])
   if results:
     import matplotlib.pyplot as plt
+    plt.clf() # render messes this up
     plt.plot(range(0, len(results)), results)
     plt.xlabel("episodes")
     plt.ylabel("total reward")
@@ -41,4 +42,11 @@ if __name__ == "__main__":
     replay_name = config[REPLAY_BUFFER_MODULE].split(".")[-1]
     title = f"{config[TEST_NAME]}_{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
     plt.title(title)
+    print(f"title is {title}")
     plt.savefig(f"./results/{title}.png")
+
+    plt.clf()
+    plt.plot(range(0, len(losses)), losses)
+    plt.xlabel("episodes")
+    plt.ylabel("total loss")
+    plt.show()
