@@ -40,7 +40,7 @@ if __name__ == "__main__":
     algorithm_name = config[ALGORITHM_MODULE].split(".")[-1]
     model_name = config[MODEL_MODULE].split(".")[-1]
     replay_name = config[REPLAY_BUFFER_MODULE].split(".")[-1]
-    title = f"{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
+    title = f"{config[TEST_NAME]}_{algorithm_name}_{model_name}_{replay_name}_{config[NUMBER_OF_EPISODES]}"
     plt.title(title)
     print(f"title is {title}")
     plt.savefig(f"./results/{title}.png")

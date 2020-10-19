@@ -29,6 +29,7 @@ BUFFER_WAIT_STEPS = "buffer_wait_steps"
 TEST_NAME = "test_name"
 FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
 TARGET_SYNC_FREQUENCY = "target_sync_frequency"
+CLIP_NORM = "clip_norm"
 RENDER_TRAINING_STEPS = "render_training_steps"
 
 # environments

@@ -27,6 +27,7 @@
     "replay_buffer_module": "services.algorithms.dqn.replay_buffer.simple",
     "replay_buffer_prioritization" : 0.5,
     "target_sync_frequency" : 50,
+    "clip_norm": 0,
     "max_steps_per_episode" : 100,
     "render_training_steps" : null
   }

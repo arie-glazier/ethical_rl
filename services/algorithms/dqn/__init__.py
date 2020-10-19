@@ -24,11 +24,11 @@ class DQNBASE(AlgorithmBASE):
     # enough data in the buffer.
     self.buffer_wait_steps = int(kwargs[BUFFER_WAIT_STEPS])
 
-  def sample_experiences(self, episode_number):
+  def _sample_experiences(self, episode_number):
     states, actions, rewards, next_states, dones, weights, buffer_indexes = self.replay_buffer.sample(self.batch_size, self.beta_schedule.value(episode_number))
     return states, actions, rewards, next_states, dones, weights, buffer_indexes
 
-  def play_one_step(self, state, epsilon):
+  def _play_one_step(self, state, epsilon):
     action = self.policy.get_action(self.model, state, epsilon)
     next_state, reward, done, info = self.env.step(action)
     self.replay_buffer.add(state, action, reward, next_state, done)
@@ -43,6 +43,12 @@ class DQNBASE(AlgorithmBASE):
       # TODO: check that multiplication of weights here is correct.
       loss = tf.reduce_mean(weights * self.loss_function(target_Q_values.reshape(-1,1), Q_values))
     grads = tape.gradient(loss, self.model.trainable_variables)
+
+    # Apply clipping by global norm
+    # TODO: see if norm clipping can just be incorporated into the Adam optimizer
+    if self.clip_norm:
+      grads, _ = tf.clip_by_global_norm(grads, self.clip_norm)
+
     self.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
     return Q_values, loss
 
@@ -63,7 +69,7 @@ class DQNBASE(AlgorithmBASE):
       print(weighted_td_error)
 
   def _training_step(self, episode_number):
-    states, actions, rewards, next_states, dones, weights, buffer_indexes = self.sample_experiences(episode_number)
+    states, actions, rewards, next_states, dones, weights, buffer_indexes = self._sample_experiences(episode_number)
     next_Q_values = self.model.predict(next_states)
 
     target_Q_values = self._get_target_q_values(next_Q_values, rewards, dones, next_states)
