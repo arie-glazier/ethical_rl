@@ -16,14 +16,6 @@
     "algorithm_module" : "services.algorithms.dqn.dqn",
     "model_module" : "services.models.sequential.perceptron"
   },
-  "imgobs" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
-    "environment_wrapper" : {
-      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
-    },
-    "model_module" : "services.models.sequential.cnn"
-  },
   "double_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
@@ -32,6 +24,14 @@
     },
     "algorithm_module" : "services.algorithms.dqn.double_dqn",
     "model_module" : "services.models.sequential.perceptron"
+  },
+  "imgobs" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
+      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
+    },
+    "model_module" : "services.models.sequential.cnn"
   },
   "double_dueling_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
