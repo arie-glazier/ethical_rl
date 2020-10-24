@@ -20,39 +20,12 @@ class Algorithm(DQNBASE):
     target_Q_values = (rewards + (1-dones) * self.discount_factor * next_best_Q_values)
     return target_Q_values
 
-  def train(self):
-    rewards = []
-    losses = []
-    for episode in range(self.number_of_episodes):
-      state = self.env.reset()
-      total_episode_rewards = 0
-      epsilon = self.epsilon_schedule.value(episode - self.buffer_wait_steps) if episode >= self.buffer_wait_steps else 1.0
-      for step in range(self.maximum_step_size):
-        if self.render_training_steps and episode % self.render_training_steps == 0:
-          self.env.render()
-        state, reward, done, info = self.play_one_step(state, epsilon)
-        if done and self.render_training_steps and episode % self.render_training_steps == 0:
-          self.env.step(2)
-          self.env.render()
-        total_episode_rewards += reward
-        # quit on actually reaching goal or passing the step limit
-        if done or self.env.step_count >= self.env.max_steps:
-          break
+  def _train_single_episode(self, episode):
+    reward, loss = super()._train_single_episode(episode)
 
-      # no need to train until the buffer has data
-      if episode >= self.buffer_wait_steps: 
-        loss = self._training_step(episode)
-        losses.append(loss)
-      else:
-        losses.append(0)
-
-      # copy weights to target every X episodes
-      if episode >= self.buffer_wait_steps and episode % self.target_sync_frequency == 0: 
-        print(f"completed episode {episode} with reward {total_episode_rewards}")
-        self.target_model.set_weights(self.model.get_weights())
-
-      print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
-      # TODO: reward module that captures arbitrary data
-      rewards.append(total_episode_rewards)
-      if rewards[-10:] == [-100] * 10: break
-    return rewards, losses
+    # copy weights to target every X episodes
+    if episode >= self.buffer_wait_steps and episode % self.target_sync_frequency == 0: 
+      print(f"completed episode {episode} with reward {reward}")
+      self.target_model.set_weights(self.model.get_weights())
+    
+    return reward, loss

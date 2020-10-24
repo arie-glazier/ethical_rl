@@ -81,6 +81,41 @@ class DQNBASE(AlgorithmBASE):
 
     return loss
 
+  def _train_single_episode(self, episode):
+    state = self.env.reset()
+    total_episode_rewards = 0
+    epsilon = self.epsilon_schedule.value(episode - self.buffer_wait_steps) if episode >= self.buffer_wait_steps else 1.0
+    for step in range(self.maximum_step_size):
+      if self.render_training_steps and episode % self.render_training_steps == 0:
+        self.env.render()
+      state, reward, done, info = self._play_one_step(state, epsilon)
+      if done and self.render_training_steps and episode % self.render_training_steps == 0:
+        self.env.step(2)
+        self.env.render()
+      total_episode_rewards += reward
+      # quit on actually reaching goal or passing the step limit
+      if done or self.env.step_count >= self.env.max_steps:
+        break
+
+    # no need to train until the buffer has data
+    loss = self._training_step(episode) if episode >= self.buffer_wait_steps else 0
+
+    print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
+
+    # TODO: result module that captures arbitrary data
+    return total_episode_rewards, loss
+
+  def train(self):
+    rewards = []
+    losses = []
+
+    for episode in range(self.number_of_episodes):
+      reward, loss = self._train_single_episode(episode)
+      rewards.append(reward)
+      losses.append(loss)
+
+    return rewards, losses
+
   def _get_target_q_values(self, *args):
     raise NotImplementedError("Implemented By Child")
 

@@ -33,6 +33,7 @@ if __name__ == "__main__":
   # print(results[-20:])
   if results:
     import matplotlib.pyplot as plt
+    import pickle
     plt.clf() # render messes this up
     plt.plot(range(0, len(results)), results)
     plt.xlabel("episodes")
@@ -44,6 +45,17 @@ if __name__ == "__main__":
     plt.title(title)
     print(f"title is {title}")
     plt.savefig(f"./results/{title}.png")
+
+    data = {
+      "config":config,
+      "results":results,
+      "losses":losses,
+      "environment_metatdata": env.metadata
+    }
+
+    pickle.dump(data, open(f"./data/{title}.pickle", "wb"))
+
+    plt.show()
 
     plt.clf()
     plt.plot(range(0, len(losses)), losses)
