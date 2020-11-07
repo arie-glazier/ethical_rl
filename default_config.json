@@ -29,5 +29,7 @@
     "target_sync_frequency" : 50,
     "clip_norm": null,
     "max_steps_per_episode" : 100,
-    "render_training_steps" : null
+    "render_training_steps" : null,
+    "random_start_position" : false,
+    "constraint_violation_penalty": -1
   }

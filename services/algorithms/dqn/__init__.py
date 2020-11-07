@@ -1,5 +1,5 @@
 import sys
-from collections import deque
+from collections import defaultdict
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -76,9 +76,6 @@ class DQNBASE(AlgorithmBASE):
     Q_values, loss = self._update_model(states, actions, weights, target_Q_values)
     self._update_replay_buffer(Q_values, target_Q_values, buffer_indexes)
 
-    # For debugging, can delete later
-    if self.render_training_steps and episode_number % self.render_training_steps == 0: self.__print_debug_info()
-
     return loss
 
   def _train_single_episode(self, episode):
@@ -100,44 +97,26 @@ class DQNBASE(AlgorithmBASE):
     # no need to train until the buffer has data
     loss = self._training_step(episode) if episode >= self.buffer_wait_steps else 0
 
-    print(f"episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
+    print(f"{self.env.env.agent_start_pos} / {self.env.env.agent_start_dir} episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
 
     # TODO: result module that captures arbitrary data
     return total_episode_rewards, loss
 
   def train(self):
-    rewards = []
-    losses = []
+    history = defaultdict(list)
 
     for episode in range(self.number_of_episodes):
       reward, loss = self._train_single_episode(episode)
-      rewards.append(reward)
-      losses.append(loss)
+      history[REWARDS].append(reward)
+      history[LOSS].append(loss)
+      history[CONSTRAINT_VIOLATION_COUNT].append(self.env.metadata[CONSTRAINT_VIOLATION_COUNT])
+      history[EPISODE_ACTION_HISTORY].append(self.env.metadata[EPISODE_ACTION_HISTORY])
 
-    return rewards, losses
+      # TODO: this is bad, can do better (wrapper is weird too)
+      if self.number_of_episodes - episode <= 2000: 
+        self.env.env.agent_start_pos = (1,1)
+
+    return history
 
   def _get_target_q_values(self, *args):
     raise NotImplementedError("Implemented By Child")
-
-  def __print_debug_info(self):
-    goal_state = np.array([[0,1,0,0,0,0,1,0,0,1,4]])
-    print(f"goal: {self.model.predict(goal_state)}")
-    for i in range(4,5):
-      before_goal_state = np.array([[1,0,0,0,1,0,0,1,0,0,0]])
-      print(f"straight: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,1,0,0,1,0,0,1,0,0,0]])
-      print(f"straight: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,0,1,0,1,0,0,1,0,0,0]])
-      print(f"left: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,0,0,1,1,0,0,1,0,0,0]])
-      print(f"right: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[1,0,0,0,0,1,0,1,0,0,2]])
-      print(f"straight: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[1,0,0,0,0,0,1,1,0,0,3]])
-      print(f"right: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,1,0,0,0,0,1,1,0,0,4]])
-      print(f"straight: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,5]])
-      print(f"straight: {self.model.predict(before_goal_state)}")
-      before_goal_state = np.array([[0,1,0,0,0,0,1,0,1,0,99]])
-      print(f"straight: {self.model.predict(before_goal_state)}")

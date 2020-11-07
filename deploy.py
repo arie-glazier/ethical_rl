@@ -14,5 +14,5 @@ if __name__ == "__main__":
   deployer = Deployer(root_directory=cwd)
 
   deployer.clean()
-  archive_path = deployer.package(folders=["services"], files=["config.json","main.py","requirements.txt"])
+  archive_path = deployer.package(folders=["services"], files=["config.json","main.py","requirements.txt", "default_config.json"])
   deployer.deploy(host=args.host, project_name=args.project_name, archive_path=archive_path)
