@@ -134,13 +134,34 @@
     "fully_connected_model_size" : [100, 100],
     "max_replay_buffer_length" : 2000000,
     "epsilon_end" : 0.0001,
-    "epsilon_anneal_percent" : 0.60,
+    "epsilon_anneal_percent" : 0.70,
     "termination_reward" : 1,
     "discount_factor" : 0.99,
     "target_sync_frequency" : 100,
-    "xtarget_sync_frequency" : "this can be 400 with episodes=5000",
     "number_of_episodes": 1000,
     "max_steps_per_episode" : 20
+  },
+  "double_dueling_prioritized_random_start" : {
+    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.05,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.70,
+    "termination_reward" : 1,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 100,
+    "number_of_episodes": 1000,
+    "max_steps_per_episode" : 20,
+    "random_start_position": true
   },
   "double" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -199,5 +220,73 @@
     "target_sync_frequency" : 100,
     "number_of_episodes": 1000,
     "max_steps_per_episode" : 20
+  },
+  "double_dueling_prioritized_constraint_aware" : {
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "services.environments.rewards.negative_step_constraint_aware",
+    "learning_rate" : 0.05,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.70,
+    "termination_reward" : 1,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 400,
+    "number_of_episodes": 5000,
+    "max_steps_per_episode" : 20
+  },
+  "double_dueling_prioritized_large_aware" : {
+    "environment_name" : "MiniGrid-Ethical10x10-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "services.environments.rewards.negative_step_constraint_aware",
+    "learning_rate" : 0.01,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.95,
+    "termination_reward" : 40,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 400,
+    "number_of_episodes": 10000,
+    "max_steps_per_episode" : 35,
+    "random_start_position": true,
+    "constraint_violation_penalty" : -5
+  },
+  "double_dueling_prioritized_large_unaware" : {
+    "environment_name" : "MiniGrid-Ethical10x10-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "learning_rate" : 0.05,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.70,
+    "termination_reward" : 1,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 100,
+    "number_of_episodes": 1000,
+    "max_steps_per_episode" : 20,
+    "random_start_position": true
   }
 }

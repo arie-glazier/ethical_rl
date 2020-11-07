@@ -13,10 +13,9 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
     self.array_size = self.n_directions + self.x_position_size + self.y_position_size
 
     # This sets bounds for each value a state observation can take
-    # TODO: Be better about step count
-    low = np.zeros(self.array_size + 1)
+    low = np.zeros(self.array_size)
     low[-1] = -100
-    high = np.ones(self.array_size+1)
+    high = np.ones(self.array_size)
     high[-1] = 1000
     self.observation_space = Box(
       low=low,
@@ -33,7 +32,6 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
       (
         self.__one_hot_map(self.n_directions, obs["direction"]),
         self.__one_hot_map(self.x_position_size, obs["agent_position"][0] - 1),
-        self.__one_hot_map(self.y_position_size, obs["agent_position"][1] - 1),
-        np.array([obs["step_count"]])
+        self.__one_hot_map(self.y_position_size, obs["agent_position"][1] - 1)
       )
     )
