@@ -3,30 +3,38 @@ from services.constants import *
 import pickle
 
 class Reporting:
-  def __init__(self, data_object,**kwargs):
+  def __init__(self, data_object):
     self.data_object = data_object
-    self.results_destination = kwargs[RESULTS_DESTINATION]
-    self.model = kwargs[MODEL_MODULE]
-    self.environment_name = kwargs[ENVIRONMENT_NAME]
-    self.replay_name = kwargs[REPLAY_BUFFER_MODULE]
-    self.algorithm_name = kwargs[ALGORITHM_MODULE]
-    self.test_name = kwargs[TEST_NAME]
-    self.number_of_episodes = kwargs[NUMBER_OF_EPISODES]
-    self.env = kwargs[ENVIRONMENT]
+    self.config = data_object[CONFIG]
+    self.results_destination = self.config[RESULTS_DESTINATION]
+    self.model_name = self.config[MODEL_MODULE]
+    self.replay_name = self.config[REPLAY_BUFFER_MODULE]
+    self.algorithm_name = self.config[ALGORITHM_MODULE]
+    self.test_name = self.config[TEST_NAME]
+    self.number_of_episodes = self.config[NUMBER_OF_EPISODES]
 
 
-  def __create_reward_graph(self):
-    plt.plot(self.data_object['return'])
+  def create_return_graph(self):
+    plt.plot(self.data_object['returns'])
     plt.xlabel("episodes")
     plt.ylabel("total return")
-    plt.savefig(f"{self.results_destination}reward_graph")
+    plt.savefig(f"{self.results_destination}return_graph")
+    plt.clf()
     
-  def __create_constraint_graph(self):
+  def create_constraint_violation_graph(self):
+    plt.plot(self.data_object['constraint_violations'])
+    plt.xlabel("episodes")
+    plt.ylabel("constraint violations")
+    plt.savefig(f"{self.results_destination}constraint_violation_graph")
+    plt.clf()
+
+  def create_performance_graph(self):
     plt.plot(self.data_object['performance'])
     plt.xlabel("episodes")
     plt.ylabel("performance")
-    plt.savefig(f"{self.results_destination}reward_graph")
+    plt.savefig(f"{self.results_destination}performance_graph")
+    plt.clf()
 
-  def __dump_data(self):
+  def dump_data(self):
     title = f"{self.test_name}_{self.algorithm_name}_{self.model_name}_{self.replay_name}_{self.number_of_episodes}"
     pickle.dump(self.data_object, open(f"{self.results_destination}{title}.pickle", "wb"))
