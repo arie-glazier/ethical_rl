@@ -21,20 +21,6 @@ class Reporting:
     plt.title(title)
     plt.savefig(f"{self.results_destination}{data_object_key}_graph")
     plt.clf()
-    
-  def create_constraint_violation_graph(self):
-    plt.plot(self.data_object['constraint_violations'])
-    plt.xlabel("episodes")
-    plt.ylabel("constraint violations")
-    plt.savefig(f"{self.results_destination}constraint_violation_graph")
-    plt.clf()
-
-  def create_performance_graph(self):
-    plt.plot(self.data_object['performance'])
-    plt.xlabel("episodes")
-    plt.ylabel("performance")
-    plt.savefig(f"{self.results_destination}performance_graph")
-    plt.clf()
 
   def dump_data(self):
     title = f"{self.test_name}_{self.algorithm_name}_{self.model_name}_{self.replay_name}_{self.number_of_episodes}"
