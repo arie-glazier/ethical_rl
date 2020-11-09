@@ -14,11 +14,12 @@ class Reporting:
     self.number_of_episodes = self.config[NUMBER_OF_EPISODES]
 
 
-  def create_return_graph(self):
-    plt.plot(self.data_object['returns'])
-    plt.xlabel("episodes")
-    plt.ylabel("total return")
-    plt.savefig(f"{self.results_destination}return_graph")
+  def create_graph(self,data_object_key, x_label, y_label,title = None, **kwargs):
+    plt.plot(self.data_object[data_object_key],**kwargs)
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title)
+    plt.savefig(f"{self.results_destination}{data_object_key}_graph")
     plt.clf()
     
   def create_constraint_violation_graph(self):
