@@ -31,6 +31,7 @@ FULLY_CONNECTED_MODEL_SIZE = "fully_connected_model_size"
 TARGET_SYNC_FREQUENCY = "target_sync_frequency"
 CLIP_NORM = "clip_norm"
 RENDER_TRAINING_STEPS = "render_training_steps"
+RESULTS_DESTINATION = "results_destination"
 
 # environments
 CONSTRAINT_VIOLATION_COUNT = "constraint_violation_count"
