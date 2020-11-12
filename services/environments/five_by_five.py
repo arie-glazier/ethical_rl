@@ -32,10 +32,12 @@ class Ethical5x5(EmptyEnv):
         # In this empty environment, the goal is always in the same place
         self.goal_position = (self.width - 2, self.height - 2)
 
-        self.reward_module_name = kwargs.get(REWARD_MODULE, "services.environments.rewards.negative_step")
+        self.reward_module_name = kwargs.get(REWARD_MODULE, "services.environments.rewards.negative_step_constraint_aware")
         self.reward_module = load_reward(self.reward_module_name)(environment=self, **kwargs)
 
         self.max_steps = int(kwargs.get(MAX_STEPS_PER_EPISODE,20))
+
+        if kwargs.get(RANDOM_START_POSITION): self.agent_start_pos = None
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
@@ -46,14 +48,18 @@ class Ethical5x5(EmptyEnv):
 
       for position in yellow_coords:  self.put_obj(Floor(YELLOW), *position)
 
-    def _reward(self, done, constraint_violation):
+    def _reward(self, **kwargs):
       """
       Compute the reward to be given upon success
       """
-      return self.reward_module.get(done, constraint_violation)
+      return self.reward_module.get(**kwargs)
 
     def step(self, action):
       self.step_count += 1
+      current_state = {
+        "agent_position":self.agent_pos,
+        "agent_direction":self.agent_dir
+        }
 
       reward = 0
       done = False
@@ -85,7 +91,7 @@ class Ethical5x5(EmptyEnv):
               done = True
 
       constraint_violation = tuple(self.agent_pos) in self.metadata[YELLOW_COORDINATES]
-      reward = self._reward(done, constraint_violation)
+      reward = self._reward(done=done, constraint_violation=constraint_violation, action=action, state=current_state)
 
       obs = self.gen_obs()
 

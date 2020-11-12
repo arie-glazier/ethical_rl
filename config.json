@@ -288,5 +288,28 @@
     "number_of_episodes": 1000,
     "max_steps_per_episode" : 20,
     "random_start_position": true
+  },
+  "double_dueling_prioritized_pref" : {
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
+    "environment_wrapper" : {
+      "modules" : ["services.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "model_module" : "services.models.sequential.dueling_dqn",
+    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "services.environments.rewards.neural_network",
+    "learning_rate" : 0.05,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 200000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.90,
+    "termination_reward" : 5,
+    "discount_factor" : 1.0,
+    "target_sync_frequency" : 100,
+    "number_of_episodes": 1000,
+    "max_steps_per_episode" : 10,
+    "random_start_position": true
   }
 }

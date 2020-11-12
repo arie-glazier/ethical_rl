@@ -113,7 +113,8 @@ class DQNBASE(AlgorithmBASE):
       history[EPISODE_ACTION_HISTORY].append(self.env.metadata[EPISODE_ACTION_HISTORY])
 
       # TODO: this is bad, can do better (wrapper is weird too)
-      if self.number_of_episodes - episode <= 2000: 
+      if self.number_of_episodes - episode <= 200: 
+        print(self.env.metadata[EPISODE_ACTION_HISTORY])
         self.env.env.agent_start_pos = (1,1)
 
     return history
