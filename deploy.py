@@ -1,6 +1,6 @@
 import argparse, json, os
 
-from services.deploy import Deployer
+from ethical_rl.deploy import Deployer
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--host")

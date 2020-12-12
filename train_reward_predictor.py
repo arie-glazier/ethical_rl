@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
 
-from services.reward_predictor import RewardPredictor
+from ethical_rl.reward_predictor import RewardPredictor
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--pickle_file", default="labeled_data")

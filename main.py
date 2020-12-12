@@ -2,13 +2,13 @@ import json, argparse, os, sys, importlib
 
 import gym
 # TODO: make these imports dynamic
-from services.environments.minigrid_test import *
-from services.environments.five_by_five import *
-from services.environments.ten_by_ten import *
-from services.util import load_class, load_object, load_model, load_policy, load_algorithm
-from services.arguments import Arguments
-from services.config import Config
-from services.constants import *
+from ethical_rl.environments.minigrid_test import *
+from ethical_rl.environments.five_by_five import *
+from ethical_rl.environments.ten_by_ten import *
+from ethical_rl.util import load_class, load_object, load_model, load_policy, load_algorithm
+from ethical_rl.arguments import Arguments
+from ethical_rl.config import Config
+from ethical_rl.constants import *
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -20,7 +20,8 @@ if __name__ == "__main__":
   args = PARSER.parse_args()
   config = Config(pwd=pwd, args=args).config
 
-  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name), **config)
+  environment_config = config if config["include_environment_config"] else {}
+  env = gym.make(config.get(ENVIRONMENT_NAME, args.environment_name), **environment_config)
   environment_wrapper_config = config.get(ENVIRONTMENT_WRAPPER)
   if environment_wrapper_config:
     for idx, module in enumerate(environment_wrapper_config[MODULES]): # for ability to wrap mulitple

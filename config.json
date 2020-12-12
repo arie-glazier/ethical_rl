@@ -2,10 +2,10 @@
   "cartpole" : {
     "environment_name" : "CartPole-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.base"],
+      "modules" : ["ethical_rl.wrappers.base"],
       "classes" : ["BaseWrapper"]
     },
-    "model_module" : "services.models.sequential.perceptron"
+    "model_module" : "ethical_rl.models.sequential.perceptron"
   },
   "double_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -13,8 +13,8 @@
       "modules" : ["gym_minigrid.wrappers"], 
       "classes" : ["FlatObsWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.perceptron"
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.perceptron"
   },
   "double_dueling_dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -23,8 +23,8 @@
       "classes" : ["FlatObsWrapper"],
       "note" : "This flattens representations"
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn"
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn"
   },
   "imgobs" : {
     "environment_name" : "MiniGrid-arie-test-v0",
@@ -32,17 +32,17 @@
       "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
       "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
     },
-    "model_module" : "services.models.sequential.cnn"
+    "model_module" : "ethical_rl.models.sequential.cnn"
   },
   "sym_wrapper_rainbow_params" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module" : "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
     "discount_factor" : 0.99
@@ -50,10 +50,10 @@
   "q_learning" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.q_learning",
+    "algorithm_module" : "ethical_rl.algorithms.q_learning",
     "learning_rate" : 0.05,
     "discount_factor" : 0.99,
     "number_of_episodes" : 50000
@@ -61,12 +61,12 @@
   "double_simple_prioritized" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.perceptron",
-    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.prioritized",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.perceptron",
+    "replay_buffer_module" : "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
     "discount_factor" : 0.99
@@ -74,12 +74,12 @@
   "double_simple_simple" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.perceptron",
-    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.perceptron",
+    "replay_buffer_module" : "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
     "discount_factor" : 0.99
@@ -87,12 +87,12 @@
   "dqn_simple_simple" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.dqn",
-    "model_module" : "services.models.sequential.perceptron",
-    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.dqn",
+    "model_module" : "ethical_rl.models.sequential.perceptron",
+    "replay_buffer_module" : "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
     "discount_factor" : 0.99
@@ -100,12 +100,12 @@
   "double_dueling_simple" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module" : "services.algorithms.dqn.replay_buffer.simple",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module" : "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "learning_rate" : 0.000125,
     "batch_size" : 32,
     "discount_factor" : 0.99
@@ -116,19 +116,19 @@
       "modules" : ["gym_minigrid.wrappers"],
       "classes" : ["FlatObsWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.dqn",
-    "model_module" : "services.models.sequential.perceptron",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.dqn",
+    "model_module" : "ethical_rl.models.sequential.perceptron",
     "clip_norm": 5.0
   },
   "double_dueling_prioritized" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -144,12 +144,12 @@
   "double_dueling_prioritized_random_start" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -166,10 +166,10 @@
   "double" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -185,10 +185,10 @@
   "dqn" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.dqn",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.dqn",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -204,11 +204,11 @@
   "double_dueling" : {
     "environment_name" : "MiniGrid-arie-test-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -224,13 +224,13 @@
   "double_dueling_prioritized_constraint_aware" : {
     "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
-    "reward_module" : "services.environments.rewards.negative_step_constraint_aware",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "ethical_rl.environments.rewards.negative_step_constraint_aware",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -246,13 +246,13 @@
   "double_dueling_prioritized_large_aware" : {
     "environment_name" : "MiniGrid-Ethical10x10-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
-    "reward_module" : "services.environments.rewards.negative_step_constraint_aware",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "ethical_rl.environments.rewards.negative_step_constraint_aware",
     "learning_rate" : 0.01,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -270,12 +270,12 @@
   "double_dueling_prioritized_large_unaware" : {
     "environment_name" : "MiniGrid-Ethical10x10-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -289,16 +289,16 @@
     "max_steps_per_episode" : 20,
     "random_start_position": true
   },
-  "double_dueling_prioritized_pref" : {
+  "double_dueling_prioritized_pref_human" : {
     "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
-      "modules" : ["services.wrappers.symbolic_observations"], 
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "model_module" : "services.models.sequential.dueling_dqn",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.prioritized",
-    "reward_module" : "services.environments.rewards.neural_network",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
+    "reward_module" : "ethical_rl.environments.rewards.neural_network",
     "learning_rate" : 0.05,
     "batch_size" : 128,
     "fully_connected_model_size" : [100, 100],
@@ -311,5 +311,24 @@
     "number_of_episodes": 1000,
     "max_steps_per_episode" : 10,
     "random_start_position": true
+  },
+  "lunar_lander_dqn": {
+    "environment_name": "LunarLander-v2",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.prioritized",
+    "include_environment_config": false,
+    "environment_wrapper": {},
+    "learning_rate" : 0.001,
+    "batch_size" : 64,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 1000000,
+    "epsilon_end" : 0.001,
+    "epsilon_anneal_percent" : 0.1,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 2,
+    "number_of_episodes": 1000,
+    "buffer_wait_steps" : 2,
+    "maximum_step_size" : 300000
   }
 }

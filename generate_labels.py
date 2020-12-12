@@ -2,12 +2,12 @@ import argparse, pickle, os, gym, random
 import sys
 from dataclasses import asdict
 
-from services.labels import EpisodeResult, LabeledData
-from services.labels.synthetic import Labeler as SyntheticLabeler
-from services.labels.human import Labeler as HumanLabeler
+from ethical_rl.labels import EpisodeResult, LabeledData
+from ethical_rl.labels.synthetic import Labeler as SyntheticLabeler
+from ethical_rl.labels.human import Labeler as HumanLabeler
 
 #TODO: save this in pickle file and load dynamically
-from services.environments.five_by_five import *
+from ethical_rl.environments.five_by_five import *
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument("--pickle_file", default="double_dueling_prioritized_constraint_aware_double_dqn_dueling_dqn_prioritized_5000_MiniGrid-Ethical5x5-v0.pickle")

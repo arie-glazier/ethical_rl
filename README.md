@@ -48,9 +48,9 @@ The main elements of a RL problem are an environment, a model, a policy, and an 
 ```python
 import json, gym
 
-from services.models.sequential.perceptron import Model
-from services.policies.epsilon_greedy import Policy
-from services.algorithms.dqn.double_dqn import Algorithm
+from ethical_rl.models.sequential.perceptron import Model
+from ethical_rl.policies.epsilon_greedy import Policy
+from ethical_rl.algorithms.dqn.double_dqn import Algorithm
 
 config = json.loads(open("./default_config.json").read())
 
@@ -77,10 +77,10 @@ Adjustable parameters (with examples) that can be specified in config.json or fr
     "number_of_episodes" : 600,
     "maximum_step_size" : 200,
     "buffer_wait_steps" : 50,
-    "model_module" : "services.models.sequential.perceptron",
-    "policy_module": "services.policies.epsilon_greedy",
-    "algorithm_module" : "services.algorithms.dqn.double_dqn",
-    "epsilon_schedule_module" : "services.common.schedules.linear",
+    "model_module" : "ethical_rl.models.sequential.perceptron",
+    "policy_module": "ethical_rl.policies.epsilon_greedy",
+    "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "epsilon_schedule_module" : "ethical_rl.common.schedules.linear",
     "epsilon_start" : 1.0,
     "epsilon_end" : 0.01,
     "epsilon_anneal_percent" : 0.10,
@@ -89,7 +89,7 @@ Adjustable parameters (with examples) that can be specified in config.json or fr
       "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
     },
     "environment_name" : "MiniGrid-arie-test-v0",
-    "replay_buffer_module": "services.algorithms.dqn.replay_buffer.simple",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "replay_buffer_prioritization" : 0.5
   }
 ```
