@@ -6,15 +6,18 @@ This repo is implemented on top of [OpenAI gym](https://github.com/openai/gym) a
 
 ## Installation
 
-Clone the repo.  TODO: create import package
+This repo is available as a PyPi package and can be installed using ```pip install ethical-rl```
+
+However, I make no guarantees that the package on PyPi is up to date so if you want the code you see here: Clone the repo and ```pip install .```
 
 ## Requirements
-
 ```
 tensorflow==2.3.0
 gym==0.17.2
-numpy==1.18.1
+numpy==1.17.4
 gym-minigrid==1.0.1
+matplotlib==3.3.1
+gym[atari]
 ```
 
 NOTE: The gym-minigrid package may not be up to date in the pip package manager.  It may be necessary to clone the gym-minigrid repo, navigate into the directory, and ```pip install .```.
@@ -106,6 +109,14 @@ Adjustable parameters defaults that can be specified in config.json or from the 
 ```
 
 TODO: explanations of each
+
+## Examples
+
+Boilerplate code for common uses is available in the ```examples``` folder.
+* ```view_episode.py``` - visual rendering of a single episode
+* ```generate_labels.py``` - generate labels from human/synthetic feedback to be used in reward function approximation
+* ```train_reward_predictor.py``` - create a neural network for reward function approximation
+* ```deploy.py``` - deploy code and configuration to run on a remote host
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
