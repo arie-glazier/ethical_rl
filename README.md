@@ -64,7 +64,7 @@ results = algorithm.train() # returns a list of total rewards in each episode
 
 ## Configurations
 
-Adjustable parameters (with examples) that can be specified in config.json or from the command line are:
+Adjustable parameters defaults that can be specified in config.json or from the command line are:
 
 ```json
   {
@@ -78,19 +78,30 @@ Adjustable parameters (with examples) that can be specified in config.json or fr
     "maximum_step_size" : 200,
     "buffer_wait_steps" : 50,
     "model_module" : "ethical_rl.models.sequential.perceptron",
+    "fully_connected_model_size" : [32, 32],
     "policy_module": "ethical_rl.policies.epsilon_greedy",
     "algorithm_module" : "ethical_rl.algorithms.dqn.double_dqn",
+    "reward_module" : "ethical_rl.environments.rewards.negative_step",
+    "termination_reward" : 30,
+    "step_reward" : -1,
     "epsilon_schedule_module" : "ethical_rl.common.schedules.linear",
     "epsilon_start" : 1.0,
     "epsilon_end" : 0.01,
     "epsilon_anneal_percent" : 0.10,
     "environment_wrapper" : {
-      "modules" : ["gym_minigrid.wrappers","gym_minigrid.wrappers"], 
-      "classes" : ["RGBImgPartialObsWrapper", "ImgObsWrapper"]
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
     "environment_name" : "MiniGrid-arie-test-v0",
     "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.simple",
-    "replay_buffer_prioritization" : 0.5
+    "replay_buffer_prioritization" : 0.5,
+    "target_sync_frequency" : 50,
+    "clip_norm": null,
+    "max_steps_per_episode" : 100,
+    "render_training_steps" : null,
+    "random_start_position" : false,
+    "constraint_violation_penalty": -1,
+    "include_environment_config": true
   }
 ```
 
