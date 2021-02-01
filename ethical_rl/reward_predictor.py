@@ -25,9 +25,9 @@ class RewardPredictor:
 
   def mu(self, label):
     # TODO: standardize labels between human and synthetic
-    if label == "1" or "left": return (self.max_mu, self.min_mu)
-    elif label == "2" or "right": return (self.min_mu, self.max_mu)
-    elif label == "3" or "same": return ((self.max_mu + self.min_mu) / 2, (self.max_mu + self.min_mu) / 2)
+    if label == "1" or label == "left": return (self.max_mu, self.min_mu)
+    elif label == "2" or label == "right": return (self.min_mu, self.max_mu)
+    elif label == "3" or label == "same": return ((self.max_mu + self.min_mu) / 2, (self.max_mu + self.min_mu) / 2)
     else: return None
 
   def process_trajectory(self, trajectory, mu_idx, label):
@@ -55,12 +55,12 @@ class RewardPredictor:
       self.training_data.append(input_array)
       self.training_labels.append(self.mu(label)[mu_idx]) # TODO: ugly
 
-  def train_model(self):
-    x_train_all, x_test, y_train_all, y_test = train_test_split(np.stack(self.training_data), np.array(self.training_labels), train_size=0.9)
-    x_train, x_valid, y_train, y_valid = train_test_split(x_train_all, y_train_all, train_size=0.9)
+  def initialize_model(self):
     # TODO: update models so we can just use them here
+    # initializer = tf.keras.initializers.Constant(0.0)
     input_layer = keras.layers.Dense(30, activation="elu", input_shape=(self.input_shape,))
-    hidden_layer = keras.layers.Dense(30, activation="elu", kernel_initializer="he_normal", kernel_regularizer=keras.regularizers.l2(0.01))
+    hidden_layer = keras.layers.Dense(30, activation="elu", kernel_regularizer=keras.regularizers.l2(0.01))
+    # hidden_layer = keras.layers.Dense(30, activation="elu", kernel_regularizer=keras.regularizers.l2(0.01))
     output_layer = keras.layers.Dense(1)
     model = keras.models.Sequential([
       input_layer,
@@ -70,17 +70,24 @@ class RewardPredictor:
       output_layer
     ])
 
-    optimizer = keras.optimizers.Adam(lr=0.01)
+    optimizer = keras.optimizers.Adam(lr=0.05)
     model.compile(loss="mean_squared_error", optimizer=optimizer)
+    return model
+
+  def train_model(self, model):
+    x_train_all, x_test, y_train_all, y_test = train_test_split(np.stack(self.training_data), np.array(self.training_labels), train_size=0.9)
+    x_train, x_valid, y_train, y_valid = train_test_split(x_train_all, y_train_all, train_size=0.9)
 
     history = model.fit(x_train, y_train, epochs=20, validation_data=(x_valid,y_valid))
     mse_test = model.evaluate(x_test, y_test)
     print(f"mse: {mse_test}")
 
-    # TODO: config, set default folders on deploy
-    model.save("./saved_models/reward_model.h5")
-
     return model
+
+  def save_model(self, model, file_path):
+    # TODO: config, set default folders on deploy
+    # model.save("./saved_models/reward_model.h5")
+    model.save(f"{file_path}.h5")
 
   def predict(self, model, direction, x, y, action):
     directions = np.zeros(self.n_directions)
@@ -105,4 +112,5 @@ class RewardPredictor:
     print(input_array)
 
     prediction = model.predict(np.vstack([input_array]))
-    print(f"starting state ({x}, {y}) => action: {action}, prediction: {prediction}")
+    print(f"state ({x}, {y}) => action: {action}, prediction: {prediction}")
+    return prediction[0][0]

@@ -4,17 +4,20 @@ import gym
 # TODO: make these imports dynamic
 from ethical_rl.environments.minigrid_test import *
 from ethical_rl.environments.five_by_five import *
+from ethical_rl.environments.five_by_five_object import *
 from ethical_rl.environments.ten_by_ten import *
 from ethical_rl.util import load_class, load_object, load_model, load_policy, load_algorithm
 from ethical_rl.arguments import Arguments
 from ethical_rl.config import Config
 from ethical_rl.constants import *
+from ethical_rl.reporting import Reporter
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 
 PARSER = Arguments(pwd=pwd).parser 
 PARSER.add_argument("--test_name")
 PARSER.add_argument("--server_execution", action="store_true")
+PARSER.add_argument("--result_save_folder")
 
 if __name__ == "__main__":
   args = PARSER.parse_args()
@@ -59,19 +62,26 @@ if __name__ == "__main__":
       HISTORY: history
     }
 
-    pickle.dump(data, open(f"./data/{title}.pickle", "wb"))
+    data_save_folder = args.result_save_folder or "./data"
+    pickle.dump(data, open(f"{data_save_folder}/{title}.pickle", "wb"))
 
     if not args.server_execution:
+      # TODO: fix bugs in this
+      # reporter = Reporter(history)
+      # plt = reporter.create_graph(REWARDS, "episode", "total_reward", title, title)
+      # constraint_title = f"{title}_CONSTRAINTS"
+      # plt = reporter.create_graph(CONSTRAINT_VIOLATION_COUNT, "episode", "total_violations", constraint_title, constraint_title)
       import matplotlib.pyplot as plt
+      results_folder = args.result_save_folder or "./results"
       plt.clf() # render messes this up
       plt = make_plot(plt, "episodes", "total_reward", title, history[REWARDS])
-      plt.savefig(f"./results/{title}.png")
+      plt.savefig(f"{results_folder}/{title}.png")
       plt.show()
 
       plt.clf()
       constraint_title = f"{title}_CONSTRAINTS"
       plt = make_plot(plt, "episodes", "total_violations", constraint_title, history[CONSTRAINT_VIOLATION_COUNT])
-      plt.savefig(f"./results/{constraint_title}.png")
+      plt.savefig(f"{results_folder}/{constraint_title}.png")
       plt.show()
 
       plt.clf()

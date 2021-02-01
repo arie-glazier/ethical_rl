@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='ethical_rl',
@@ -8,7 +8,7 @@ setup(
     author='Arie Glazier',
     author_email='adglazier@gmail.com',
     license='unlicense',
-    packages=['ethical_rl'],
+    packages=find_packages(),#['ethical_rl'],
     zip_safe=False,
     install_requires=[
       'tensorflow==2.3.0',

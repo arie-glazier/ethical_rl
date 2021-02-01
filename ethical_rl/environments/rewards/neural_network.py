@@ -7,7 +7,9 @@ import numpy as np
 class Reward(RewardBASE):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
-    self.model = keras.models.load_model("./saved_models/reward_model.h5")
+    self.model_path = kwargs["reward_model_path"]
+    print(f"loading model: {self.model_path}")
+    self.model = keras.models.load_model(self.model_path)
     self.termination_reward = int(kwargs.get(TERMINATION_REWARD, 30))
 
   # TODO: make util and share w/ wrapper

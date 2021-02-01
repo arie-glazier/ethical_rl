@@ -32,5 +32,7 @@
     "render_training_steps" : null,
     "random_start_position" : false,
     "constraint_violation_penalty": -1,
-    "include_environment_config": true
+    "include_environment_config": true,
+    "reward_model_path" : "",
+    "results_destination": ""
   }

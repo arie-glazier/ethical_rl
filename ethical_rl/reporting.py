@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from ethical_rl.constants import *
 import pickle
 
-class Reporting:
+class Reporter:
   def __init__(self, data_object):
     self.data_object = data_object
     self.config = data_object[CONFIG]
@@ -14,12 +14,14 @@ class Reporting:
     self.number_of_episodes = self.config[NUMBER_OF_EPISODES]
 
 
-  def create_graph(self,data_object_key, x_label, y_label,title = None, **kwargs):
-    plt.plot(self.data_object[data_object_key],**kwargs)
+  def create_graph(self,data_object_key, x_label, y_label,title,filename):
+    data = self.data_object[data_object_key]
+    plt.clf()
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(title)
-    plt.savefig(f"{self.results_destination}{data_object_key}_graph")
+    plt.plot(range(0,len(data)), data)
+    plt.savefig(f"{self.results_destination}/{filename}.png")
     plt.clf()
 
   def dump_data(self):

@@ -22,7 +22,7 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
       high= high
     )
 
-  def __one_hot_map(self, attribute_size, attribute_observation):
+  def _one_hot_map(self, attribute_size, attribute_observation):
     array = np.zeros(attribute_size)
     array[attribute_observation] = 1
     return array
@@ -30,8 +30,43 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
   def observation(self, obs):
     return np.concatenate(
       (
-        self.__one_hot_map(self.n_directions, obs["direction"]),
-        self.__one_hot_map(self.x_position_size, obs["agent_position"][0] - 1),
-        self.__one_hot_map(self.y_position_size, obs["agent_position"][1] - 1)
+        self._one_hot_map(self.n_directions, obs["direction"]),
+        self._one_hot_map(self.x_position_size, obs["agent_position"][0] - 1),
+        self._one_hot_map(self.y_position_size, obs["agent_position"][1] - 1)
       )
     )
+
+class SymbolicObservationsOneHotWrapperObject(SymbolicObservationsOneHotWrapper):
+  def __init__(self, env):
+    super().__init__(env)
+    self.array_size = self.array_size + self.x_position_size + self.y_position_size + 1# for ball coords
+
+    # This sets bounds for each value a state observation can take
+    low = np.zeros(self.array_size)
+    low[-1] = -100
+    high = np.ones(self.array_size)
+    high[-1] = 1000
+    self.observation_space = Box(
+      low=low,
+      high= high
+    )
+
+  def observation(self, obs):
+    bpc = obs["ball_placed_correctly"]
+    obs = np.concatenate(
+      (
+        self._one_hot_map(self.n_directions, obs["direction"]),
+        self._one_hot_map(self.x_position_size, obs["agent_position"][0] - 1),
+        self._one_hot_map(self.y_position_size, obs["agent_position"][1] - 1),
+        self._one_hot_map(self.x_position_size, obs["ball_coords"][0] - 1),
+        self._one_hot_map(self.y_position_size, obs["ball_coords"][1] - 1)
+      )
+    )
+    # obs = super().observation(obs)
+    # object_goal = self.grid.get(*self.metadata["square_coords"][0])
+    # ball_in_destination = object_goal.type == "ball" # ball is in its destination
+    # obs = np.append(obs, ball_in_destination) 
+    obs = np.append(obs, 1 if bpc else 0) 
+
+    return obs
+    
