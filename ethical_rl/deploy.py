@@ -30,3 +30,6 @@ class Deployer:
 
     ssh_args = [SSH, kwargs.get(HOST), f'unzip -o ~/uploads/{kwargs.get(PROJECT_NAME)}/{str(kwargs.get(ARCHIVE_PATH)).split("/")[-1]}', "-d", f"~/{kwargs.get(PROJECT_NAME)}"]
     subprocess.run(ssh_args)
+
+  def issue_cmd(self, cmd_args):
+    return subprocess.run(cmd_args)

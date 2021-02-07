@@ -6,6 +6,7 @@ from gym_minigrid.register import register
 
 import sys, random
 
+# TODO: DO NOT USE, NOT IN A GOOD PLACE
 class Ethical5x5Object(EthicalGridBASE):
   def __init__(self, **kwargs):
     self.random_ball_position = kwargs.get(RANDOM_START_POSITION) # TODO: make own config

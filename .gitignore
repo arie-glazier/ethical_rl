@@ -4,6 +4,7 @@ deploy/
 results/
 data/
 saved_models/
+misc_uncommitted/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

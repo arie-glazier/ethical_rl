@@ -4,6 +4,7 @@ from ethical_rl.constants import *
 from scipy.spatial import distance
 import sys
 
+# TODO: DO NOT USE, NOT IN A GOOD PLACE
 class Reward(RewardBASE):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
