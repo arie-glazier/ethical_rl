@@ -1,4 +1,4 @@
-import json, argparse, os, sys, importlib, datetime
+import json, argparse, os, sys, importlib, datetime, uuid
 
 import gym
 # TODO: make these imports dynamic
@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
   # TODO: move this out of main driver
   experiment_group_name = args.experiment_group_name or args.test_name # for running multiple iterations
-  experiment_identifier = str(round(datetime.datetime.utcnow().timestamp()))
+  experiment_identifier = str(uuid.uuid4())
   result_save_folder = os.path.join(args.result_save_folder or "./results", experiment_group_name, experiment_identifier)
   data_save_folder = os.path.join(result_save_folder, "data") or "./data"
   graph_save_folder = os.path.join(result_save_folder, "graphs") or "./graphs"

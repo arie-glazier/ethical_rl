@@ -131,7 +131,7 @@ class DQNBASE(AlgorithmBASE):
       if self.number_of_episodes - episode <= 200: 
         print(self.env.metadata[EPISODE_ACTION_HISTORY])
         self.env.env.agent_start_pos = (1,1)
-        self.env.env.random_ball_position = False
+        # self.env.env.random_ball_position = False
         # self.render_training_steps = 10
 
     return history

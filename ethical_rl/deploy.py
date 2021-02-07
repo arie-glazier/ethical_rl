@@ -6,8 +6,9 @@ class Deployer:
     self.root_directory = kwargs.get(ROOT_DIRECTORY)
 
   def clean(self, **kwargs):
-    shutil.rmtree(os.path.join(self.root_directory, DEPLOY),ignore_errors=True)
-    os.mkdir(DEPLOY)
+    deploy_folder = os.path.join(self.root_directory, DEPLOY)
+    if os.path.exists(deploy_folder): shutil.rmtree(deploy_folder, ignore_errors=True)
+    os.mkdir(deploy_folder)
 
   def package(self, **kwargs):
     archive_name = f"{time.time()}".replace(".","")
@@ -15,11 +16,12 @@ class Deployer:
 
     os.makedirs(archive_path, exist_ok=True)
 
+    # expecting absolute paths here
     for f in kwargs.get(FILES) or []:
-      shutil.copyfile(os.path.join(self.root_directory, f), os.path.join(archive_path, f))
+      shutil.copyfile(f, os.path.join(archive_path, os.path.basename(f)))
 
     for f in kwargs.get(FOLDERS) or []:
-      shutil.copytree(os.path.join(self.root_directory, f), os.path.join(archive_path, f))
+      shutil.copytree(f, os.path.join(archive_path, os.path.basename(f)))
 
     shutil.make_archive(archive_path, ZIP, archive_path)
     return archive_path
