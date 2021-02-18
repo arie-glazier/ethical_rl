@@ -8,7 +8,7 @@ class Reward(RewardBASE):
     self.step_reward = int(kwargs.get(STEP_REWARD, -1))
     self.constraint_violation_penalty = int(kwargs.get("constraint_violation_penalty", -1))
 
-  def get(self, **kwargs):
-    if kwargs["done"]:
+  def get(self, done, constraint_violation, *args, **kwargs):
+    if done:
       return self.termination_reward
-    return self.step_reward + (self.constraint_violation_penalty if kwargs.get("constraint_violation") else 0)
+    return self.step_reward + (self.constraint_violation_penalty if constraint_violation else 0)

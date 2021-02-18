@@ -13,7 +13,7 @@ from ethical_rl.constants import *
 from ethical_rl.reporting import Reporter
 
 import tensorflow as tf
-tf.keras.backend.set_floatx('float64')
+tf.keras.backend.set_floatx('float32')
 
 pwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -24,6 +24,8 @@ PARSER.add_argument("--result_save_folder")
 PARSER.add_argument("--experiment_group_name", default="")
 
 if __name__ == "__main__":
+  start = datetime.datetime.now()
+  print(start)
   args = PARSER.parse_args()
   config = Config(pwd=pwd, args=args).config
 
@@ -78,6 +80,8 @@ if __name__ == "__main__":
 
     pickle.dump(data, open(f"{data_save_folder}/{title}.pickle", "wb"))
 
+    print(datetime.datetime.now() - start)
+
     if not args.server_execution:
       # TODO: fix bugs in this
       # reporter = Reporter(history)
@@ -99,3 +103,4 @@ if __name__ == "__main__":
       plt.clf()
       plt = make_plot(plt, "episodes", "total_loss", f"{title}_LOSS", history[LOSS])
       plt.show()
+    

@@ -121,7 +121,7 @@
     "clip_norm": 5.0
   },
   "double_dueling_prioritized" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
@@ -142,7 +142,7 @@
     "max_steps_per_episode" : 10
   },
   "double_dueling_prioritized_random_start" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
@@ -164,7 +164,7 @@
     "random_start_position": true
   },
   "double" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
@@ -175,15 +175,15 @@
     "fully_connected_model_size" : [100, 100],
     "max_replay_buffer_length" : 2000000,
     "epsilon_end" : 0.0001,
-    "epsilon_anneal_percent" : 0.50,
+    "epsilon_anneal_percent" : 0.70,
     "termination_reward" : 1,
     "discount_factor" : 0.99,
     "target_sync_frequency" : 100,
     "number_of_episodes": 1000,
-    "max_steps_per_episode" : 20
+    "max_steps_per_episode" : 10
   },
   "dqn" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
@@ -194,15 +194,35 @@
     "fully_connected_model_size" : [100, 100],
     "max_replay_buffer_length" : 2000000,
     "epsilon_end" : 0.0001,
-    "epsilon_anneal_percent" : 0.50,
+    "epsilon_anneal_percent" : 0.70,
     "termination_reward" : 1,
     "discount_factor" : 0.99,
     "target_sync_frequency" : 100,
     "number_of_episodes": 1000,
-    "max_steps_per_episode" : 20
+    "max_steps_per_episode" : 10
+  },
+  "dueling" : {
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
+    "environment_wrapper" : {
+      "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper"]
+    },
+    "algorithm_module" : "ethical_rl.algorithms.dqn.dqn",
+    "model_module" : "ethical_rl.models.sequential.dueling_dqn",
+    "learning_rate" : 0.05,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [100, 100],
+    "max_replay_buffer_length" : 2000000,
+    "epsilon_end" : 0.0001,
+    "epsilon_anneal_percent" : 0.70,
+    "termination_reward" : 1,
+    "discount_factor" : 0.99,
+    "target_sync_frequency" : 100,
+    "number_of_episodes": 1000,
+    "max_steps_per_episode" : 10
   },
   "double_dueling" : {
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "environment_wrapper" : {
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
@@ -214,12 +234,12 @@
     "fully_connected_model_size" : [100, 100],
     "max_replay_buffer_length" : 2000000,
     "epsilon_end" : 0.0001,
-    "epsilon_anneal_percent" : 0.50,
+    "epsilon_anneal_percent" : 0.70,
     "termination_reward" : 1,
     "discount_factor" : 0.99,
     "target_sync_frequency" : 100,
     "number_of_episodes": 1000,
-    "max_steps_per_episode" : 20
+    "max_steps_per_episode" : 10
   },
   "double_dueling_prioritized_constraint_aware" : {
     "environment_name" : "MiniGrid-Ethical5x5-v0",
@@ -239,9 +259,9 @@
     "epsilon_anneal_percent" : 0.70,
     "termination_reward" : 1,
     "discount_factor" : 0.99,
-    "target_sync_frequency" : 400,
-    "number_of_episodes": 5000,
-    "max_steps_per_episode" : 20
+    "target_sync_frequency" : 100,
+    "number_of_episodes": 1000,
+    "max_steps_per_episode" : 10
   },
   "double_dueling_prioritized_large_aware" : {
     "environment_name" : "MiniGrid-Ethical10x10-v0",
@@ -285,9 +305,9 @@
     "termination_reward" : 1,
     "discount_factor" : 0.99,
     "target_sync_frequency" : 100,
-    "number_of_episodes": 1000,
+    "number_of_episodes": 10000,
     "max_steps_per_episode" : 20,
-    "random_start_position": true
+    "random_start_position": false
   },
   "double_dueling_prioritized_pref_human" : {
     "environment_name" : "MiniGrid-Ethical5x5-v0",
