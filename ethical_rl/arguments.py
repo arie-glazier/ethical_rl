@@ -8,6 +8,8 @@ class Arguments:
     self.parser = argparse.ArgumentParser()
     self.pwd = kwargs[PWD]
 
-    self.available_args = json.loads(open(os.path.join(self.pwd, "default_config.json")).read()).keys()
+    self.default_config = json.loads(open(os.path.join(self.pwd, "default_config.json")).read())
+    self.available_args = self.default_config.keys()
     for arg in self.available_args:
-      self.parser.add_argument(f"--{arg}")
+      arg_def = f"--{arg}"
+      self.parser.add_argument(arg_def)

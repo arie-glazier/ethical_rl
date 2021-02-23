@@ -20,6 +20,7 @@ class Ethical5x5(EmptyEnv):
 
     def __init__(self, **kwargs):
         self.goal_position = None
+        self.kwargs = kwargs
         super().__init__(size=5)
         # Action enumeration for this environment
         self.actions = Ethical5x5.Actions
@@ -40,14 +41,25 @@ class Ethical5x5(EmptyEnv):
 
         if kwargs.get(RANDOM_START_POSITION): self.agent_start_pos = None
 
+    def _map_grid_coords(self, s):
+      x, y = map(int, s.split(","))
+      return (x,y)
+
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
 
-      # Put a yellow square in the top right and bottom left
-      yellow_coords = [(width - 2, height - 4), (width - 4, height -2)]
-      self.metadata[YELLOW_COORDINATES] = yellow_coords
+      constraint_color = self.kwargs.get("constraint_color") or YELLOW
 
-      for position in yellow_coords:  self.put_obj(Floor(YELLOW), *position)
+      # TODO: handle multiple points
+      if self.kwargs.get("constraint_location"):
+        constraint_location = [self._map_grid_coords(self.kwargs.get("constraint_location"))]
+      else:
+        # Default a yellow square in the top right and bottom left
+        constraint_location = [(width - 2, height - 4), (width - 4, height -2)]
+
+      self.metadata[YELLOW_COORDINATES] = constraint_location
+
+      for position in constraint_location:  self.put_obj(Floor(constraint_color), *position)
 
     def _reward(self, **kwargs):
       """

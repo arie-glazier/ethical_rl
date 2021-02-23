@@ -34,5 +34,7 @@
     "constraint_violation_penalty": -1,
     "include_environment_config": true,
     "reward_model_path" : "",
-    "results_destination": ""
+    "results_destination": "",
+    "constraint_color": null,
+    "constraint_location": null
   }
