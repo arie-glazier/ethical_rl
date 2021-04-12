@@ -598,5 +598,36 @@
     "max_steps_per_episode" : 25,
     "random_start_position": true,
     "constraint_violation_penalty": -10
+  },
+  "anwar" : {
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
+    "environment_wrapper" : {
+      "modules" : ["ethical_rl.wrappers.symbolic_observations","tf_agents.environments.gym_wrapper","tf_agents.environments.tf_py_environment"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper", "GymWrapper","TFPyEnvironment"]
+    },
+    "algorithm_module" : "ethical_rl.algorithms.ppo",
+    "model_module" : "ethical_rl.models.value_network",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.tf_uniform",
+    "reward_module" : "ethical_rl.environments.rewards.negative_step_constraint_aware",
+    "policy_module": "ethical_rl.policies.actor_network",
+    "optimizer" : "Adam",
+    "learning_rate" : 1.23e-3,
+    "batch_size" : 128,
+    "fully_connected_model_size" : [64, 64],
+    "max_replay_buffer_length" : 20000,
+    "termination_reward" : 5,
+    "step_reward" : -1,
+    "constraint_violation_penalty": -10,
+    "discount_factor" : 0.99,
+    "number_of_episodes": 100,
+    "clip_ratio": 0.13,
+    "target_kl": 0.01,
+    "td_lambda_value": 1.0,
+    "include_environment_config": true,
+    "max_steps_per_episode" : 10,
+    "evaluate_steps": 25,
+    "render_steps": 6,
+    "rollout_length": 200,
+    "num_epochs": 3
   }
 }

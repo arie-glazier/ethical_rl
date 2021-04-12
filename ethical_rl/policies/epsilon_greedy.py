@@ -7,7 +7,12 @@ import tensorflow as tf
 class Policy:
   def __init__(self, **kwargs):
     self.env = kwargs[ENVIRONMENT]
-    self.n_outputs = self.env.action_space.n
+
+    # TODO: handle discrete vs continous action_space better
+    if hasattr(self.env.action_space, "n"):
+      self.n_outputs = self.env.action_space.n
+    else:
+      self.n_outputs = self.env.action_space.shape[1]
 
   def get_action(self, model, state, epsilon):
     # TODO: make possible actions passed in

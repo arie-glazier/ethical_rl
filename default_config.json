@@ -36,5 +36,13 @@
     "reward_model_path" : "",
     "results_destination": "",
     "constraint_color": null,
-    "constraint_location": null
+    "constraint_location": null,
+    "clip_ratio": 0.0,
+    "rollout_length": 128,
+    "target_kl": null,
+    "evaluate_steps": 25,
+    "td_lambda_value": 1,
+    "loss_steps": null,
+    "render_steps": null,
+    "num_epochs": 1
   }
