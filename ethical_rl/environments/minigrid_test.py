@@ -32,10 +32,13 @@ class Arie5x5(EmptyEnv):
         # In this empty environment, the goal is always in the same place
         self.goal_position = (self.width - 2, self.height - 2)
 
-        self.reward_module_name = kwargs.get(REWARD_MODULE, "environments.rewards.negative_step")
+        self.reward_module_name = kwargs.get(REWARD_MODULE, "ethical_rl.environments.rewards.negative_step")
         self.reward_module = load_reward(self.reward_module_name)(environment=self, **kwargs)
 
         self.max_steps = int(kwargs[MAX_STEPS_PER_EPISODE])
+
+        self.batch_size = kwargs.get(BATCH_SIZE) or 128
+        self._batch_size = kwargs.get(BATCH_SIZE) or 128
 
     def _gen_grid(self, width, height):
       super()._gen_grid(width, height)
@@ -45,7 +48,7 @@ class Arie5x5(EmptyEnv):
       self.metadata[YELLOW_COORDINATES] = [yellow_coords]
       self.put_obj(Floor(YELLOW), *yellow_coords)
 
-    def _reward(self, done):
+    def _reward(self, done, *args):
       """
       Compute the reward to be given upon success
       """

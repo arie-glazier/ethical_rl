@@ -5,6 +5,7 @@ results/
 data/
 saved_models/
 misc_uncommitted/
+secrets.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

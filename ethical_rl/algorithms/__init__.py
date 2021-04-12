@@ -5,7 +5,13 @@ from ethical_rl.util import load_schedule
 class AlgorithmBASE:
   def __init__(self, **kwargs):
     self.env = kwargs[ENVIRONMENT]
-    self.n_outputs = self.env.action_space.n
+
+    # TODO: handle discrete vs continous action_space better
+    if hasattr(self.env, "action_space") and hasattr(self.env.action_space, "n"):
+      self.n_outputs = self.env.action_space.n
+    elif hasattr(self.env, "action_space"):
+      self.n_outputs = self.env.action_space.shape[1]
+
     self.model = kwargs[MODEL]
     self.policy = kwargs[POLICY]
 
@@ -18,6 +24,7 @@ class AlgorithmBASE:
 
     self.number_of_episodes = int(kwargs[NUMBER_OF_EPISODES])
     self.maximum_step_size = int(kwargs[MAXIMUM_STEP_SIZE]) #TODO: compare with max_steps_per_episode.  dont need both
+    self.max_steps_per_episode = int(kwargs[MAX_STEPS_PER_EPISODE])
 
     self.epsilon_start = kwargs[EPSILON_START]
     self.epsilon_end = kwargs[EPSILON_END]
