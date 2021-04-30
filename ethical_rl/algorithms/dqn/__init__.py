@@ -37,8 +37,11 @@ class DQNBASE(AlgorithmBASE):
     return next_state, reward, done, info
 
   def _update_model(self, states, actions, weights, target_Q_values):
-    # TODO: Understand exactly what GradientTape does.
+    # TODO: FIX BREAKING CHANGE
     mask = tf.one_hot(actions, self.n_outputs)
+    # mask = tf.ones(self.n_outputs) # THIS BREAKS MINIGRID!
+
+    # TODO: Understand exactly what GradientTape does.
     with tf.GradientTape() as tape:
       all_Q_values = self.model(states)
       Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
@@ -106,7 +109,7 @@ class DQNBASE(AlgorithmBASE):
     print(f"{episode} / {total_episode_rewards} / {step} / {epsilon} / {self.m} / {np.mean(self.history[REWARDS][-10:])}")
 
     # TODO: this is dependent on being a minigrid environment
-    if hasattr(self.env.env,"agent_start_pos"): print(f"{self.env.env.agent_start_pos} / {self.env.env.agent_start_dir} episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
+    if hasattr(self.env, "env") and hasattr(self.env.env,"agent_start_pos"): print(f"{self.env.env.agent_start_pos} / {self.env.env.agent_start_dir} episode: {episode} / total_rewards: {total_episode_rewards} / total_steps: {step} / epsilon: {epsilon}")
 
     # TODO: result module that captures arbitrary data
     return total_episode_rewards, loss
@@ -127,12 +130,12 @@ class DQNBASE(AlgorithmBASE):
 
       # TODO: this is bad, can do better (wrapper is weird too)
       # TODO: this is dependent on being a minigrid environment
-      # if hasattr(self.env.metadata, EPISODE_ACTION_HISTORY) and self.number_of_episodes - episode <= 200: 
       if self.number_of_episodes - episode <= 200: 
-        print(self.env.metadata[EPISODE_ACTION_HISTORY])
-        self.env.env.agent_start_pos = (1,1)
-        # self.env.env.random_ball_position = False
-        # self.render_training_steps = 10
+        if hasattr(self.env.metadata, EPISODE_ACTION_HISTORY) and self.number_of_episodes - episode <= 200: 
+          print(self.env.metadata[EPISODE_ACTION_HISTORY])
+          self.env.env.agent_start_pos = (1,1)
+          # self.env.env.random_ball_position = False
+          # self.render_training_steps = 10
 
     return history
 

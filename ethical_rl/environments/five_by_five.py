@@ -26,7 +26,8 @@ class Ethical5x5(EmptyEnv):
         self.actions = Ethical5x5.Actions
 
         # Actions are discrete integer values
-        self.action_space = spaces.Discrete(len(self.actions))
+        # self.action_space = spaces.Discrete(len(self.actions)) # TODO: check if this breaks things
+        self.action_space = spaces.MultiDiscrete(len(self.actions))
 
         self.metadata[CONSTRAINT_VIOLATION_COUNT] = 0
         self.metadata[EPISODE_ACTION_HISTORY] = []

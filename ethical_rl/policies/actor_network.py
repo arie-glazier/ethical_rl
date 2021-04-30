@@ -5,6 +5,7 @@ from ethical_rl.constants import *
 class Policy:
   def __init__(self, **kwargs):
     self.env = kwargs[ENVIRONMENT]
+
     self.model = ActorDistributionNetwork(
       self.env.observation_spec(),
       self.env.action_spec(),

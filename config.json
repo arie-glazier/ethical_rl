@@ -629,5 +629,41 @@
     "render_steps": 6,
     "rollout_length": 200,
     "num_epochs": 3
+  },
+  "icrl" : {
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
+    "environment_wrapper" : {
+      "modules" : ["ethical_rl.wrappers.symbolic_observations","tf_agents.environments.gym_wrapper","tf_agents.environments.tf_py_environment"], 
+      "classes" : ["SymbolicObservationsOneHotWrapper", "GymWrapper","TFPyEnvironment"]
+    },
+    "algorithm_module" : "ethical_rl.algorithms.ppo.icrl",
+    "model_module" : "ethical_rl.models.value_network",
+    "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.tf_uniform",
+    "reward_module" : "ethical_rl.environments.rewards.negative_step",
+    "policy_module": "ethical_rl.policies.actor_network",
+    "optimizer" : "Adam",
+    "learning_rate" : 1.23e-3,
+    "batch_size" : 30,
+    "fully_connected_model_size" : [64, 64],
+    "max_replay_buffer_length" : 20000,
+    "termination_reward" : 1,
+    "step_reward" : -1,
+    "constraint_violation_penalty": -10,
+    "discount_factor" : 0.99,
+    "number_of_episodes": 20,
+    "clip_ratio": 0.13,
+    "target_kl": 0.01,
+    "td_lambda_value": 1.0,
+    "include_environment_config": true,
+    "max_steps_per_episode" : 10,
+    "evaluate_steps": 100,
+    "xrender_steps": 6,
+    "rollout_length": 30,
+    "num_epochs": 3,
+    "alpha": 1.0,
+    "initial_lambda_value": 1.0,
+    "lambda_learning_rate": 0.005,
+    "classifier_training_steps": 1,
+    "policy_training_steps": 20
   }
 }

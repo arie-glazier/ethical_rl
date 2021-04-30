@@ -44,5 +44,10 @@
     "td_lambda_value": 1,
     "loss_steps": null,
     "render_steps": null,
-    "num_epochs": 1
+    "num_epochs": 1,
+    "alpha": 1.0,
+    "initial_lambda_value": 1.0,
+    "lambda_learning_rate": 0.001,
+    "classifier_training_steps": 1,
+    "policy_training_steps": 1
   }

@@ -1,5 +1,5 @@
 import gym, sys
-from gym.spaces import Box
+from gym.spaces import Box, MultiDiscrete, Discrete
 import numpy as np
 
 # support for using agent direction and position only
@@ -14,9 +14,14 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
 
     # This sets bounds for each value a state observation can take
     low = np.zeros(self.array_size)
-    low[-1] = -100
+    low[-1] = 0
     high = np.ones(self.array_size)
-    high[-1] = 1000
+    high[-1] = 1
+
+    # TODO: observation type should be configurable
+    # dims = np.array([[2] * (self.n_directions+self.x_position_size+self.y_position_size)], dtype=np.int64)
+    # self.observation_space = MultiDiscrete(dims)
+    # self.observation_space = Discrete(2)
     self.observation_space = Box(
       low=low,
       high= high
@@ -28,13 +33,14 @@ class SymbolicObservationsOneHotWrapper(gym.core.ObservationWrapper):
     return array
 
   def observation(self, obs):
-    return np.concatenate(
+    state = np.concatenate(
       (
         self._one_hot_map(self.n_directions, obs["direction"]),
         self._one_hot_map(self.x_position_size, obs["agent_position"][0] - 1),
         self._one_hot_map(self.y_position_size, obs["agent_position"][1] - 1)
       )
-    )
+    ).astype(np.int64)
+    return state
 
 class SymbolicObservationsOneHotWrapperObject(SymbolicObservationsOneHotWrapper):
   def __init__(self, env):
