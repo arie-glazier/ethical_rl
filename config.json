@@ -650,7 +650,7 @@
     "step_reward" : -1,
     "constraint_violation_penalty": -10,
     "discount_factor" : 0.99,
-    "number_of_episodes": 20,
+    "number_of_episodes": 100,
     "clip_ratio": 0.13,
     "target_kl": 0.01,
     "td_lambda_value": 1.0,
@@ -662,7 +662,7 @@
     "num_epochs": 3,
     "alpha": 1.0,
     "initial_lambda_value": 1.0,
-    "lambda_learning_rate": 0.005,
+    "lambda_learning_rate": 1.0,
     "classifier_training_steps": 1,
     "policy_training_steps": 20
   }
