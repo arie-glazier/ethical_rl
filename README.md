@@ -158,6 +158,18 @@ These items all follow the exact same pattern as rewards.  To create a new imple
 
 Each of these has an associated ```BASE``` class that can be inherited from to streamline common attribute instantiation (e.g. ```batch_size``` or ```learning_rate``` for models) that helps keep new class files relatively light weight.
 
+Current implementations are:
+* Algorithms
+  * Deep Q-Network (DQN)
+  * Proximal Policy Optimization (PPO)
+* Models
+  * Dueling DQN
+  * Simple Perceptron
+  * Value Network (for PPO)
+* Policies
+  * Epsilon Greedy
+  * Actor Network (for PPO)
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
