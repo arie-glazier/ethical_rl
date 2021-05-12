@@ -11,14 +11,8 @@ This repo is available as a PyPi package and can be installed using ```pip insta
 However, I make no guarantees that the package on PyPi is up to date so if you want the code you see here: Clone the repo and ```pip install .```
 
 ## Requirements
-```
-tensorflow==2.3.0
-gym==0.17.2
-numpy==1.17.4
-gym-minigrid==1.0.1
-matplotlib==3.3.1
-gym[atari]
-```
+
+Library dependencies are listed in setup.py.
 
 NOTE: The gym-minigrid package may not be up to date in the pip package manager.  It may be necessary to clone the gym-minigrid repo, navigate into the directory, and ```pip install .```.
 
@@ -62,7 +56,7 @@ model = Model(environment=environment).model
 policy = Policy(environment=environment)
 algorithm = Algorithm(environment=environment, model=model, policy=policy, **config)
 
-results = algorithm.train() # returns a list of total rewards in each episode
+algorithm.train() 
 ```
 
 ## Configurations
@@ -108,8 +102,6 @@ Adjustable parameters defaults that can be specified in config.json or from the 
   }
 ```
 
-TODO: explanations of each
-
 ## Examples
 
 Boilerplate code for common uses is available in the ```examples``` folder.
@@ -118,10 +110,44 @@ Boilerplate code for common uses is available in the ```examples``` folder.
 * ```train_reward_predictor.py``` - create a neural network for reward function approximation
 * ```deploy.py``` - deploy code and configuration to run on a remote host
 
+## Repo Organization
+
+As noted above, the main components of an RL problem are an environment, a model, a policy, and an algorithm.  This repository is organized in such a way that each of these components have a common interface and can be easily modified or created and used in whatever combination is desired.
+
+### Environments
+
+Available environments can be found in ```./environments```.  Environments must inherit from ```gym.Env``` and required override methods are: ```reset()``` and ```step()```.  For more information see: https://github.com/openai/gym/blob/master/docs/creating-environments.md
+
+Currently, we have 5 environments - 4 different grid worlds and 1 for news article recommendation.
+
+![Alt text](/static/8x8.png?raw=true "8x8")
+
+To create a new environment, simply create a new file with an ```Environment``` class, register it with a unique ID, and pass the ID in via the ```environment_name``` argument.
+
+### Wrappers
+
+OpenAI Gym supports the concept of "wrappers".  Wrappers allow environment transformations to be done in a modular fashion.  For example, when states are represented as RGB images, often pixels are represented by values between 0 and 255.  However, sometimes learning can be done faster if pixel values are rescaled to take values between 0 and 1.  This is where a wrapper can be used.  There are several wrappers provided by OpenAI Gym (see: ).  Also, https://alexandervandekleut.github.io/gym-wrappers/ provides an in depth explanation of wrappers and how to create your own.
+
+Custom wrappers in this repo can be placed in ```./wrappers``` and passed in via the ```environment_wrapper``` configuration where you reference the module path and the class name.
+
+
+### Rewards
+
+A key component of an RL environment is a reward function.  In our tests here we are concerned with evaluating agent behavior when constraints are explicitly modeled in the reward functions against behavior when constraint information is provided by other means such as labeled trajectories or demonstrations.
+
+Custom ```Reward``` classes can be created by adding a new file in ```./environments/rewards``` and then referencing the new object with the ```reward_module``` path.
+
+### Algorithms, Models, and Policies
+
+These items all follow the exact same pattern as rewards.  To create a new implementation, simply add a file to either ```./algorithms```, ```./models```, or ```./policies``` with a class name of ```Algorithm```, ```Model```, or ```Policy```.  Then, reference your new object with the appropriate configuration argument (either ```algorithm_module```, ```model_module```, or ```policy_module```).
+
+Each of these has an associated ```BASE``` class that can be inherited from to streamline common attribute instantiation (e.g. ```batch_size``` or ```learning_rate``` for models) that helps keep new class files relatively light weight.
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

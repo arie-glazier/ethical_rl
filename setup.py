@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-      'tensorflow==2.3.0',
+      'tensorflow>=2.3.0',
       'gym==0.17.2',
       'numpy==1.17.4',
       'gym-minigrid==1.0.1',

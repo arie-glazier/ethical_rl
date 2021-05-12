@@ -1,6 +1,5 @@
 deploy/
 .DS_Store
-*.png
 results/
 data/
 saved_models/
