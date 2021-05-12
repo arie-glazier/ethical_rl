@@ -142,7 +142,7 @@ To create a new environment, simply create a new file with an ```Environment``` 
 
 ### Wrappers
 
-OpenAI Gym supports the concept of "wrappers".  Wrappers allow environment transformations to be done in a modular fashion.  For example, when states are represented as RGB images, often pixels are represented by values between 0 and 255.  However, sometimes learning can be done faster if pixel values are rescaled to take values between 0 and 1.  This is where a wrapper can be used.  There are several wrappers provided by OpenAI Gym (see: ).  Also, [this write-up](https://alexandervandekleut.github.io/gym-wrappers/) provides an in depth explanation of wrappers and how to create your own.
+OpenAI Gym supports the concept of "wrappers".  Wrappers allow environment transformations to be done in a modular fashion.  For example, when states are represented as RGB images, often pixels are represented by values between 0 and 255.  However, sometimes learning can be done faster if pixel values are rescaled to take values between 0 and 1.  This is where a wrapper can be used.  There are several wrappers provided by OpenAI Gym (see [here](https://github.com/openai/gym/tree/master/gym/wrappers)).  Also, [this write-up](https://alexandervandekleut.github.io/gym-wrappers/) provides an in depth explanation of wrappers and how to create your own.
 
 Custom wrappers in this repo can be placed in ```./wrappers``` and passed in via the ```environment_wrapper``` configuration where you reference the module path and the class name.
 
