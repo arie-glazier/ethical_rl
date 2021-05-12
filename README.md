@@ -65,7 +65,7 @@ Adjustable parameters defaults that can be specified in config.json or from the 
 
 ```json
   {
-    "max_replay_buffer_length" : 2000,
+     "max_replay_buffer_length" : 2000,
     "batch_size" : 32,
     "discount_factor" : 0.95,
     "optimizer" : "Adam",
@@ -89,7 +89,7 @@ Adjustable parameters defaults that can be specified in config.json or from the 
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "replay_buffer_prioritization" : 0.5,
     "target_sync_frequency" : 50,
@@ -98,8 +98,24 @@ Adjustable parameters defaults that can be specified in config.json or from the 
     "render_training_steps" : null,
     "random_start_position" : false,
     "constraint_violation_penalty": -1,
-    "include_environment_config": true
-  }
+    "include_environment_config": true,
+    "reward_model_path" : "",
+    "results_destination": "",
+    "constraint_color": null,
+    "constraint_location": null,
+    "clip_ratio": 0.0,
+    "rollout_length": 128,
+    "target_kl": null,
+    "evaluate_steps": 25,
+    "td_lambda_value": 1,
+    "loss_steps": null,
+    "render_steps": null,
+    "num_epochs": 1,
+    "alpha": 1.0,
+    "initial_lambda_value": 1.0,
+    "lambda_learning_rate": 0.001,
+    "classifier_training_steps": 1,
+    "policy_training_steps": 1
 ```
 
 ## Examples
@@ -116,7 +132,7 @@ As noted above, the main components of an RL problem are an environment, a model
 
 ### Environments
 
-Available environments can be found in ```./environments```.  Environments must inherit from ```gym.Env``` and required override methods are: ```reset()``` and ```step()```.  For more information see: https://github.com/openai/gym/blob/master/docs/creating-environments.md
+Available environments can be found in ```./environments```.  Environments must inherit from ```gym.Env``` and required override methods are: ```reset()``` and ```step()```.  For more information see the [OpenAI Gym environment docs](https://github.com/openai/gym/blob/master/docs/creating-environments.md)
 
 Currently, we have 5 environments - 4 different grid worlds and 1 for news article recommendation.
 
@@ -126,10 +142,9 @@ To create a new environment, simply create a new file with an ```Environment``` 
 
 ### Wrappers
 
-OpenAI Gym supports the concept of "wrappers".  Wrappers allow environment transformations to be done in a modular fashion.  For example, when states are represented as RGB images, often pixels are represented by values between 0 and 255.  However, sometimes learning can be done faster if pixel values are rescaled to take values between 0 and 1.  This is where a wrapper can be used.  There are several wrappers provided by OpenAI Gym (see: ).  Also, https://alexandervandekleut.github.io/gym-wrappers/ provides an in depth explanation of wrappers and how to create your own.
+OpenAI Gym supports the concept of "wrappers".  Wrappers allow environment transformations to be done in a modular fashion.  For example, when states are represented as RGB images, often pixels are represented by values between 0 and 255.  However, sometimes learning can be done faster if pixel values are rescaled to take values between 0 and 1.  This is where a wrapper can be used.  There are several wrappers provided by OpenAI Gym (see: ).  Also, [this write-up](https://alexandervandekleut.github.io/gym-wrappers/) provides an in depth explanation of wrappers and how to create your own.
 
 Custom wrappers in this repo can be placed in ```./wrappers``` and passed in via the ```environment_wrapper``` configuration where you reference the module path and the class name.
-
 
 ### Rewards
 

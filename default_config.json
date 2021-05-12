@@ -23,7 +23,7 @@
       "modules" : ["ethical_rl.wrappers.symbolic_observations"], 
       "classes" : ["SymbolicObservationsOneHotWrapper"]
     },
-    "environment_name" : "MiniGrid-arie-test-v0",
+    "environment_name" : "MiniGrid-Ethical5x5-v0",
     "replay_buffer_module": "ethical_rl.algorithms.dqn.replay_buffer.simple",
     "replay_buffer_prioritization" : 0.5,
     "target_sync_frequency" : 50,
