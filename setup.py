@@ -13,9 +13,10 @@ setup(
     install_requires=[
       'tensorflow>=2.3.0',
       'gym==0.17.2',
-      'numpy==1.17.4',
+      'numpy>=1.17.4',
       'gym-minigrid==1.0.1',
       'matplotlib==3.3.1',
-      'gym[atari]'
+      'gym[atari]',
+      'tf_agents'
     ]
 )
